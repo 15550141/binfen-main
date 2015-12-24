@@ -1,0 +1,7 @@
+/.idea
+/binfen-main.iml
+/binfen-main-common/binfen-main-common.iml
+/binfen-main-dao/binfen-main-dao.iml
+/binfen-main-domain/binfen-main-domain.iml
+/binfen-main-service/binfen-main-service.iml
+/binfen-main-web/binfen-main-web.iml
