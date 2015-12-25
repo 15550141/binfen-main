@@ -6,3 +6,7 @@
 /binfen-main-service/binfen-main-service.iml
 /binfen-main-web/binfen-main-web.iml
 /binfen-main-web/target
+/binfen-main-common/target
+/binfen-main-dao/target
+/binfen-main-domain/target
+/binfen-main-service/target
