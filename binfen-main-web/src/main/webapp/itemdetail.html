@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="就是看看bootstrap" name="description">
     <meta content="缤纷果园 鲜果味道" name="keywords">
-    <title>查看采购单</title>
+    <title>日常进货单</title>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -41,63 +41,85 @@
     <div class="row">&nbsp;</div>
     <div class="row">
         <button class="btn btn-default" type="button">
-            新增采购单
+            新增采购商品
+        </button>
+        <button class="btn btn-default" type="button">
+            提交采购单
         </button>
     </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="input-group col-xs-7">
+            <input type="text" class="form-control">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default">
+                    新增商品
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">&nbsp;</div>
     <div class="row">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>#</th>
-                <th>采购单名称</th>
-                <th>创建时间</th>
-                <th>操作</th>
+                <th width="20%">商品</th>
+                <th width="20%">参考进价</th>
+                <th width="32%">进货数量</th>
+                <th width="18%">进货金额</th>
+                <th width="10%">操作</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <th scope="row">1</th>
-                <td>日常进货单</td>
-                <td>2016-1-4</td>
+                <td>阿克苏冰糖心苹果</td>
+                <td>5.5/斤</td>
                 <td>
-                    <button class="btn btn-default btn-sm" type="button">
-                        查看
-                    </button>
-                    <button class="btn btn-default btn-sm" type="button">
-                        修改
-                    </button>
+                    <input type="number" style="width: 50px;" value="" />
+                    <select>
+                        <option value="斤">斤</option>
+                        <option value="个">个</option>
+                        <option value="箱">箱</option>
+                    </select>
+                </td>
+                <td><input type="number" style="width: 50px;" value="" /></td>
+                <td>
                     <button class="btn btn-default btn-sm" type="button">
                         删除
                     </button>
                 </td>
             </tr>
             <tr>
-                <th scope="row">2</th>
-                <td>日常进货单</td>
-                <td>2016-1-4</td>
+                <td>阿克苏冰糖心苹果</td>
+                <td>5.5/斤</td>
                 <td>
-                    <button class="btn btn-default btn-sm" type="button">
-                        查看
-                    </button>
-                    <button class="btn btn-default btn-sm" type="button">
-                        修改
-                    </button>
+                    <input type="number" style="width: 50px;" value="" />
+                    <select>
+                        <option value="斤">斤</option>
+                        <option value="个">个</option>
+                        <option value="箱">箱</option>
+                    </select>
+                </td>
+                <td><input type="number" style="width: 50px;" value="" /></td>
+                <td>
                     <button class="btn btn-default btn-sm" type="button">
                         删除
                     </button>
                 </td>
             </tr>
             <tr>
-                <th scope="row">3</th>
-                <td>日常进货单</td>
-                <td>2016-1-4</td>
+                <td>阿克苏冰糖心苹果啊啊啊啊啊啊啊啊啊</td>
+                <td>5.5/斤</td>
                 <td>
-                    <button class="btn btn-default btn-sm" type="button">
-                        查看
-                    </button>
-                    <button class="btn btn-default btn-sm" type="button">
-                        修改
-                    </button>
+                    <input type="number" style="width: 50px;" value="" />
+                    <select>
+                        <option value="斤">斤</option>
+                        <option value="个">个</option>
+                        <option value="箱">箱</option>
+                    </select>
+                </td>
+                <td><input type="number" style="width: 50px;" value="" /></td>
+                <td>
                     <button class="btn btn-default btn-sm" type="button">
                         删除
                     </button>
