@@ -50,7 +50,13 @@
     <div class="row">&nbsp;</div>
     <div class="row">
         <div class="input-group col-xs-7">
-            <input type="text" class="form-control">
+            <input id="itemName" type="text" class="form-control dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+            <ul id="itemNameList" class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">啊啊啊啊啊啊啊啊</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li><a href="#">Separated link</a></li>
+            </ul>
             <div class="input-group-btn">
                 <button type="button" class="btn btn-default">
                     新增商品
@@ -130,4 +136,11 @@
     </div>
 </div>
 </body>
+
+<script type="application/javascript">
+    $("#itemName").keyup(function(){
+        var list = '<li><a href="#">'+$("#itemName").val()+'</a></li><li><a href="#">吧吧吧吧在在在在在</a></li><li><a href="#">去去去去去去去去去</a></li>';
+        $("#itemNameList").html(list);
+    });
+</script>
 </html>
