@@ -128,8 +128,9 @@ public class Test {
 //		System.out.println(resultMap.get("timeStamp"));
 //		System.out.println(paySign);
 		
-		System.out.println(DateUtil.parseDate("20151125231928").getTime());;
-		System.out.println(System.currentTimeMillis());
+//		System.out.println(DateUtil.parseDate("20151125231928").getTime());;
+//		System.out.println(System.currentTimeMillis());
+        System.out.println(System.getProperty("user.dir"));;
 	}
 	
 	public static void listNodes(Element node){  
