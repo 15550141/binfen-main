@@ -152,8 +152,7 @@ public class Sku implements Serializable{
 	}
 
 	public Integer getOriginalPrice() {
-        //TODO 未来改回来，目前原价与销售价格相同
-		return this.getSalePrice();
+		return this.originalPrice;
 	}
 
 	public void setOriginalPrice(Integer originalPrice) {
