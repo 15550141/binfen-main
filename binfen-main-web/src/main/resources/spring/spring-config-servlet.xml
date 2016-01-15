@@ -82,7 +82,48 @@
 		</property>
 	</bean>
 
-	<bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+	<bean id="velocityTools" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="stringUtils">
+					<bean class="org.apache.commons.lang.StringUtils" />
+				</entry>
+				<entry key="stringEscapeUtils">
+					<bean class="org.apache.commons.lang.StringEscapeUtils"/>
+				</entry>
+				<entry key="dateFormatUtils">
+					<bean class="com.ec.api.common.utils.DateFormatUtils"/>
+				</entry>
+				<entry key="dateUtils">
+					<bean class="org.apache.commons.lang.time.DateUtils"/>
+				</entry>
+				<entry key="bigDecimalUtils">
+					<bean class="com.ec.api.common.utils.BigDecimalUtils"/>
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="velocityUrl" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+
+				<entry key="mainModule">
+					<bean class="com.ec.api.common.utils.EcUrl">
+						<property name="url" value="http://www.binfenguoyuan.cn/" />
+					</bean>
+				</entry>
+
+				<entry key="assetModule">
+					<bean class="com.ec.api.common.utils.EcUrl">
+						<property name="url" value="http://www.binfenguoyuan.cn/" />
+					</bean>
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="velocityViewResolver" class="commons.spring.mvc.view.VelocityLayoutWithCommonToolsViewResolver">
 		<property name="cache" value="false"></property><!--是否缓存模板 -->
 		<property name="suffix" value=".vm" />
 		<property name="prefix" value="/WEB-INF/vm/" />
@@ -91,6 +132,8 @@
 		<property name="dateToolAttribute" value="dateTool" />
 		<property name="numberToolAttribute" value="numberTool" />
 		<property name="contentType" value="text/html;charset=UTF-8"></property>
+		<property name="velocityTools" ref="velocityTools"/>
+		<property name="velocityUrl" ref="velocityUrl"/>
 	</bean>
 	
 </beans>

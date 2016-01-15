@@ -12,7 +12,7 @@ import com.ec.api.service.result.Result;
 
 public interface ItemService {
 	
-	public Result getItemByItemId(Integer itemId);
+	public Item getItemByItemId(Integer itemId);
 	
 	/**
 	 * 根据条件查询商品相信信息列表

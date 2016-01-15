@@ -160,8 +160,17 @@ public class Item implements Serializable{
      */
     private Date marketEndTime;
     
-    private List<Sku> skuList; 
-    
+    private List<Sku> skuList;
+
+    private ItemDescription itemDescription;
+
+    public ItemDescription getItemDescription() {
+        return itemDescription;
+    }
+
+    public void setItemDescription(ItemDescription itemDescription) {
+        this.itemDescription = itemDescription;
+    }
 
     public Integer getItemId() {
         return itemId;

@@ -46,97 +46,63 @@ public class ItemServiceImpl implements ItemService {
 	private String tempPath = "D://imageUpload/temp/";
 	
 	@Override
-	public Result getItemByItemId(Integer itemId) {
-		Result result = new Result();
+	public Item getItemByItemId(Integer itemId) {
 		try{
 			Item item = itemDao.selectByItemId(itemId);
 			if(item == null){
-				result.setResultCode("8004");
-				result.setResultMessage("商品属性不存在");
-				return result;
+				return null;
+			}
+			if(item.getItemStatus() != 1){
+				//TODO 返回到商品已下架页面
+				return null;
 			}
 			SkuQuery skuQuery = new SkuQuery();
 			skuQuery.setItemId(itemId);
 			skuQuery.setYn(1);
 			
 			List<Sku> skuList = skuDao.selectByCondition(skuQuery);
-            Date now = new Date();
-            for(Sku sku : skuList){
-                //计算SKU促销价格
-               //一个SKU可能有多个促销，取价格最优者
-                PromotionSkuQuery promotionSkuQuery = new PromotionSkuQuery();
-                promotionSkuQuery.setSkuId(sku.getSkuId());
-                List<PromotionSku> psList = promotionSkuDao.selectByCondition(promotionSkuQuery);
-                PromotionSku promotionSku = null;
-                if( null != psList && 0 < psList.size() ){
-                    promotionSku = psList.get(0);
-                }
-                for(PromotionSku ps :psList ){
-                    if( ps.getDeductionPrice() > promotionSku.getDeductionPrice()){
-                        promotionSku = ps;
-                    }
-                }
+			ItemDescription desc = this.itemDescriptionDao.selectByItemId(item.getItemId());
+			item.setItemDescription(desc);
+			//TODO 先不要促销
+//            Date now = new Date();
+//            for(Sku sku : skuList){
+//                //计算SKU促销价格
+//               //一个SKU可能有多个促销，取价格最优者
+//                PromotionSkuQuery promotionSkuQuery = new PromotionSkuQuery();
+//                promotionSkuQuery.setSkuId(sku.getSkuId());
+//                List<PromotionSku> psList = promotionSkuDao.selectByCondition(promotionSkuQuery);
+//                PromotionSku promotionSku = null;
+//                if( null != psList && 0 < psList.size() ){
+//                    promotionSku = psList.get(0);
+//                }
+//                for(PromotionSku ps :psList ){
+//                    if( ps.getDeductionPrice() > promotionSku.getDeductionPrice()){
+//                        promotionSku = ps;
+//                    }
+//                }
                 //如果带促销，计算带促销价格
-				if(promotionSku != null && promotionSku.getDeductionPrice() > 0){
-					PromotionInfo promotionInfo = promotionInfoDao.selectByPromotionId(promotionSku.getPromotionId());
-					//判断是否有促销活动
-					if(promotionInfo != null && promotionInfo.getPurchaseNumberMin()!=null &&  promotionInfo.getPurchaseNumberMax()!=null
-                            && promotionInfo.getPromotionStatus()!=null && promotionInfo.getStartTime()!=null && promotionInfo.getEndTime() !=null
-                            && promotionInfo.getYn() == 1 && promotionInfo.getPromotionStatus() == 1
-							//&& orderDetail.getNum() > promotionInfo.getPurchaseNumberMin() && orderDetail.getNum() < promotionInfo.getPurchaseNumberMax()
-							&& now.after(promotionInfo.getStartTime()) && now.before(promotionInfo.getEndTime())
-                            ){
-                            if(sku.getSalePrice()> promotionSku.getDeductionPrice()){
-                                sku.setSalePrice(sku.getSalePrice() - promotionSku.getDeductionPrice()); //商品实际出售单价
-                            }
-					}
-				}
-            }            
-			Map<String, Object> map = new HashMap<String, Object>();
-			
-			Category category1 = categoryDao.selectByCategoryId(item.getCategoryId1());
-			if(category1 != null){
-				item.setCategoryId1Name(category1.getCategoryName());
-			}
-			Category category2 = categoryDao.selectByCategoryId(item.getCategoryId2());
-			if(category2 != null){
-				item.setCategoryId2Name(category2.getCategoryName());
-			}
-			
-			Category category3 = categoryDao.selectByCategoryId(item.getCategoryId3());
-			if(category3 != null){
-				item.setCategoryId3Name(category3.getCategoryName());
-			}
-			
-			Category category4 = categoryDao.selectByCategoryId(item.getCategoryId4());
-			if(category4 != null){
-				item.setCategoryId4Name(category4.getCategoryName());
-			}
-			
-			Address address1 = addressDao.selectByAddressId(item.getOriginProvince());
-			if(address1 != null){
-				item.setOriginProvinceName(address1.getAddressName());
-			}
-			
-			Address address2 = addressDao.selectByAddressId(item.getOriginCity());
-			if(address2 != null){
-				item.setOriginCityName(address2.getAddressName());
-			}
-			
-			Address address3 = addressDao.selectByAddressId(item.getOriginCounty());
-			if(address3 != null){
-				item.setOriginCountyName(address3.getAddressName());
-			}
-			
-			map.put("item", item);
-			map.put("skuList", skuList);
-			result.setResult(map);
-			EcUtils.setSuccessResult(result);
+//				if(promotionSku != null && promotionSku.getDeductionPrice() > 0){
+//					PromotionInfo promotionInfo = promotionInfoDao.selectByPromotionId(promotionSku.getPromotionId());
+//					//判断是否有促销活动
+//					if(promotionInfo != null && promotionInfo.getPurchaseNumberMin()!=null &&  promotionInfo.getPurchaseNumberMax()!=null
+//                            && promotionInfo.getPromotionStatus()!=null && promotionInfo.getStartTime()!=null && promotionInfo.getEndTime() !=null
+//                            && promotionInfo.getYn() == 1 && promotionInfo.getPromotionStatus() == 1
+//							&& orderDetail.getNum() > promotionInfo.getPurchaseNumberMin() && orderDetail.getNum() < promotionInfo.getPurchaseNumberMax()
+//							&& now.after(promotionInfo.getStartTime()) && now.before(promotionInfo.getEndTime())
+//                            ){
+//                            if(sku.getSalePrice()> promotionSku.getDeductionPrice()){
+//                                sku.setSalePrice(sku.getSalePrice() - promotionSku.getDeductionPrice()); //商品实际出售单价
+//                            }
+//					}
+//				}
+//            }
+
+			item.setSkuList(skuList);
+			return item;
 		}catch (Exception e) {
 			log.error("", e);
-			EcUtils.setExceptionResult(result);
 		}
-		return result;
+		return null;
 	}
 	
 	@Override

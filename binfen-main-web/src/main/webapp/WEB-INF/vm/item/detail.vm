@@ -1,0 +1,88 @@
+#set($title="鲜果味道")
+#parse("/WEB-INF/vm/common/head.vm")
+<nav class="navbar navbar-default navbar-fixed-top m-component-nav" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header text-center clearfix">
+			<a class="navbar-func pull-left" href="/"><span class="glyphicon fdayicon fdayicon-home"></span></a>
+			<span class="pull-right navbar-func">
+				<a href="/user" class="navbar-login"><span class="glyphicon fdayicon fdayicon-login"></span></a>
+				<a href="/cart" class="navbar-cart"><span class="glyphicon fdayicon fdayicon-cart"></span></a>
+			</span>
+			<span class="navbar-title">$!item.itemName</span>
+		</div>
+	</div>
+</nav>
+
+<section class="m-component-prodetail" id="m-prodetail">
+	<div class="m-proslide">
+		<div class="frame" id="proslide">
+			<ul class="slidee">
+				<li><img src="$!item.itemImage"></li>
+			</ul>
+		</div>
+		<ul class="slidebtn"></ul>
+	</div>
+	<div class="m-pro-parameter">
+		<h3>$!item.itemName</h3>
+			<h4 class="m-proselect-item" data-sid="1">
+			<ul class="sys_spec_text list-unstyled clearfix">
+				#foreach($sku in $!item.skuList)
+                    <li data-aid="$!velocityCount" #if($!velocityCount == 1)class="selected"#end pid="$!sku.skuId" ppid="$!sku.skuId" salesPropertyName="$!sku.salesPropertyName" >
+                        <a href="javascript:;" title="$!sku.salesPropertyName">$!sku.salesPropertyName</a><i class="glyphicon fdayicon fdayicon-proselect"></i>
+                    </li>
+				#end
+			</ul>
+		</h4>
+		<h4>
+			规格：<span class="selectnorms"></span>
+			<div class="num_sel_lage pull-right clearfix">
+				<span class="inC">-</span>
+				<input type="text" id="buy_num" disabled="" value="1">
+				<span class="deC">+</span>
+			</div>
+		</h4>
+		<h5 class="clearfix">
+			￥<span class="price"></span>
+			<div class="pull-right">
+			  <button type="button" class="btn btn-warning add-cart">加入购物车</button>
+			  <button type="button" class="btn btn-danger">立即购买</button>
+			</div>
+		</h5>
+	</div>
+	<div class="m-pro-tab">
+		<div class="tab-content">
+			<div id="proinfo" class="tab-pane fade in active m-pro-info" role="tabpanel">
+				$!item.itemDescription.pcDescriptionInfo
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--
+<section class="m-component-download clearfix" id="downloadApp">
+	<div class="m-close"><span class="glyphicon glyphicon-remove"></span></div>
+	<span class="pull-left"><img class="m-img" src="/misc/style/logo2.jpg"></span>
+	<span class="pull-left m-tips">下载APP，惊喜优惠价<br/>世界鲜果，一手掌握</span>
+	<span class="pull-right m-btn"><a href="javascript:void(0)" class="btn btn-success " role="button"  data-product-id="4449" name="apk_url">立刻体验</a></span>
+</section>
+ -->
+<div class="m-component-float">
+	<ul class="list-unstyled">
+		<li id="goToTop" style="display:none;"><span class="glyphicon fdayicon fdayicon-toTop"></span></li>
+		<li id="addCart"><span class="glyphicon fdayicon fdayicon-procart"></span></li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+  var sys_item={
+    "mktprice":"0",
+    "price":"",
+    "sys_attrprice":{
+       #foreach($sku in $!item.skuList)
+           "$!velocityCount":{"price":"$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.salePrice)","mktprice":"0"},
+	   #end
+	}
+};
+</script>
+<input type="hidden" id="dsp_page" value="1">
+#parse("/WEB-INF/vm/common/bottom.vm")
