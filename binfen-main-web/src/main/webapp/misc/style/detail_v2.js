@@ -153,9 +153,8 @@ function selectProitem(){
             }
             getattrprice(); //输出价格
         });
-        getattrprice(); //init 获取对应属性的价格
+        //getattrprice(); //init 获取对应属性的价格
         function getattrprice(){
-            var defaultstats=true;
             var _val='';
             var _resp={
                 mktprice : ".originalcost",
@@ -164,22 +163,12 @@ function selectProitem(){
             }  //输出对应的class
             $(".m-proselect-item").each(function(){
                 var i=$(this);
-                var v=i.attr("data-attrval");
-
-                if(!v){
-                    defaultstats=false;
-                }else{
-                    _val=v;
-                }
-
+                _val=i.attr("data-attrval");
             })
-            if(!!defaultstats){
-                _mktprice=sys_item['sys_attrprice'][_val]['mktprice'];
-                _price=sys_item['sys_attrprice'][_val]['price'];
-            }else{
-                _mktprice=sys_item['mktprice'];
-                _price=sys_item['price'];
-            }
+
+            _mktprice=sys_item['sys_attrprice'][_val]['mktprice'];
+            _price=sys_item['sys_attrprice'][_val]['price'];
+
             //输出价格
             $(_resp.mktprice).text(_mktprice);  ///其中的math.round为截取小数点位数
             $(_resp.price).text(_price);
@@ -188,7 +177,20 @@ function selectProitem(){
             }else{
                 $(_resp.mktprice).parent('del').show();
             }
-            $(_resp.norms).text($('.sys_spec_text>.selected').find('a').attr('title'))
+        };
+        priceInit();
+        function priceInit(){
+            var skuId = i.attr("data-attrval");
+            if(!skuId){
+                p[0].click();
+            }else{
+                p.each(function(){
+                    var thisSku = $(this).attr("skuId");
+                    if(thisSku == skuId){
+                        this.click();
+                    }
+                });
+            }
         }
     })
 }

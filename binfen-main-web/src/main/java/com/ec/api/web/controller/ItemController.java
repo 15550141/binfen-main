@@ -59,7 +59,7 @@ public class ItemController extends BaseController {
 	}
 
 	@RequestMapping(value="detail", method={RequestMethod.GET, RequestMethod.POST})
-	public String detail(String id, HttpServletRequest request,HttpServletResponse response, ModelMap context){
+	public String detail(String id, String skuId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
 		if(id == null){
 			return "";
 		}
@@ -68,13 +68,16 @@ public class ItemController extends BaseController {
 			Item item = itemService.getItemByItemId(itemId);
 			if(item != null){
 				context.put("item", item);
+				if(StringUtils.isNotBlank(skuId)){
+					context.put("skuId", Integer.parseInt(skuId));
+				}
 				return "item/detail";
 			}
 		}catch (Exception e) {
 			log.error("", e);
 		}
 
-		return "";
+		return "error";
 	}
 	
 

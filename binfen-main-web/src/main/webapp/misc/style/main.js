@@ -11,6 +11,7 @@ require.config({
 		"userforgetps":"user/forgetps",
 		"userregister":"user/register",
 		'productdetail':"detail",
+		'productdetail_v2':"detail_v2",
 		'productlist':"product/list",	
 		'userindex':"user/index",
 		'userorders':'user/orders',
@@ -62,8 +63,8 @@ switch(urlPath){
 		commonJs.push('cart');
 		break;
 	case '/item/detail':
-		commonJs.push('productdetail');
-		commonJs.push('cart');
+		commonJs.push('productdetail_v2');
+		commonJs.push('cart_v2');
 		break;
 	case '/prolist/search':
 	case '/prolist/index':

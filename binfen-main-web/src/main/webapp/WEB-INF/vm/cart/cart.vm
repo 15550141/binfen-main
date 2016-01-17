@@ -63,12 +63,12 @@
 						#foreach($sku in $cartInfo.skuList)
 							#if($!sku.gift == false)
 								<li id='c_normal_$!sku.skuId' type="normal" itemId="$!sku.itemId" skuId="$!sku.skuId" salesPropertyName="$!sku.salesPropertyName">
-									<a href="/detail/index/$!{sku.skuId}.html" >
+									<a href="#if($!sku.skuId<=100085)/detail/index/$!{sku.skuId}.html#else/item/detail?id=$!{sku.itemId}&skuId=$!sku.skuId#end" >
 										<img class="lazy pull-left" data-original="$!sku.image" src="$!sku.image" alt="">
 					                    <div class="m-cartlist-info">
-					                        <h3>$!sku.name #if($!sku.gift)（赠品）#end</h3>
+					                        <h3>$!sku.name</h3>
 					                        <h4>$!sku.salesPropertyName</h4>
-					                        <h5>￥$!sku.skuPrice</h5>                           
+					                        <h5>￥$!sku.skuPrice</h5>
 					                    </div>
 					                </a>
 									<span class="m-cartlist-delete" data-dismiss="alert"><i class="glyphicon fdayicon fdayicon-delete"></i></span>

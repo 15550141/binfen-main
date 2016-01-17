@@ -104,7 +104,7 @@
                         <ul class="list-unstyled">
 							#foreach($detail in $order.orderDetails)
 								<li>
-									<a href="/detail/index/$!{detail.itemId}.html">
+									<a href="#if($!detail.itemId >100085)/item/detail?id=$!{detail.itemId}&skuId=$!{detail.skuId}#else/detail/index/$!{detail.itemId}.html#end">
 										<img class="lazy pull-left" data-original="$!detail.itemImage" src="$!detail.itemImage" alt="">
 	                                    <div class="m-cartlist-info">
 	                                        <h3>$!detail.itemName</h3>

@@ -24,17 +24,17 @@
 	</div>
 	<div class="m-pro-parameter">
 		<h3>$!item.itemName</h3>
-			<h4 class="m-proselect-item" data-sid="1">
+		<h4 class="m-proselect-item" data-attrval="$!skuId" data-sid="1" #if(!$!item.salesPropertySet)style="display:none;"#end>
 			<ul class="sys_spec_text list-unstyled clearfix">
 				#foreach($sku in $!item.skuList)
-                    <li data-aid="$!velocityCount" #if($!velocityCount == 1)class="selected"#end pid="$!sku.skuId" ppid="$!sku.skuId" salesPropertyName="$!sku.salesPropertyName" >
-                        <a href="javascript:;" title="$!sku.salesPropertyName">$!sku.salesPropertyName</a><i class="glyphicon fdayicon fdayicon-proselect"></i>
-                    </li>
+					<li data-aid="$!sku.skuId" itemId="$!item.itemId" skuId="$!sku.skuId" salesPropertyName="$!sku.salesPropertyName" >
+						<a href="javascript:;" title="$!sku.salesPropertyName">$!sku.salesPropertyName</a><i class="glyphicon fdayicon fdayicon-proselect"></i>
+					</li>
 				#end
 			</ul>
 		</h4>
 		<h4>
-			规格：<span class="selectnorms"></span>
+			&nbsp;<span class="selectnorms"></span>
 			<div class="num_sel_lage pull-right clearfix">
 				<span class="inC">-</span>
 				<input type="text" id="buy_num" disabled="" value="1">
@@ -53,6 +53,7 @@
 		<div class="tab-content">
 			<div id="proinfo" class="tab-pane fade in active m-pro-info" role="tabpanel">
 				$!item.itemDescription.pcDescriptionInfo
+                <img alt="" src="/misc/style/image/gonggongdibu.jpg" style="display: inline;">
 			</div>
 		</div>
 	</div>
@@ -79,7 +80,7 @@
     "price":"",
     "sys_attrprice":{
        #foreach($sku in $!item.skuList)
-           "$!velocityCount":{"price":"$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.salePrice)","mktprice":"0"},
+           "$!sku.skuId":{"price":"$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.salePrice)","mktprice":"0"},
 	   #end
 	}
 };
