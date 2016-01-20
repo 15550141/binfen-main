@@ -130,8 +130,12 @@ public class Test {
 		
 //		System.out.println(DateUtil.parseDate("20151125231928").getTime());;
 //		System.out.println(System.currentTimeMillis());
-        System.out.println(System.getProperty("user.dir"));;
-	}
+//        System.out.println(System.getProperty("user.dir"));;
+
+        String id = "15550141";
+        System.out.println(id.substring(id.length()-2,id.length()));
+        System.out.println(id.substring(id.length()-4,id.length()-2));
+    }
 	
 	public static void listNodes(Element node){  
         System.out.println("当前节点的名称：" + node.getName());  
