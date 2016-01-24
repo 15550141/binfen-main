@@ -34,6 +34,9 @@ public class LoginInterceptor  implements HandlerInterceptor {
 			if(url.toString().indexOf("oauth") > 0){
 				return true;
 			}
+			if(url.toString().indexOf("/wxpay/wxCallBack") > 0){
+				return true;
+			}
 			
 			if (request.getQueryString() != null) {
 				url.append("?");
