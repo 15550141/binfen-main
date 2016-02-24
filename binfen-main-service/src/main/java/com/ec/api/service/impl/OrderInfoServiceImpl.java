@@ -12,6 +12,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ec.api.common.utils.*;
+import com.ec.api.dao.*;
+import com.ec.api.domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,32 +24,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.ec.api.common.utils.CookieUtils;
-import com.ec.api.common.utils.HttpUtils;
-import com.ec.api.common.utils.JsonUtils;
-import com.ec.api.common.utils.PaginatedArrayList;
-import com.ec.api.dao.ConsigneeInfoDao;
-import com.ec.api.dao.ItemDao;
-import com.ec.api.dao.OrderDetailDao;
-import com.ec.api.dao.OrderInfoDao;
-import com.ec.api.dao.PromotionInfoDao;
-import com.ec.api.dao.PromotionSkuDao;
-import com.ec.api.dao.SkuDao;
-import com.ec.api.dao.TaskDao;
-import com.ec.api.dao.UmpInfoDao;
-import com.ec.api.domain.CartInfo;
-import com.ec.api.domain.CartSku;
-import com.ec.api.domain.ConsigneeInfo;
-import com.ec.api.domain.Item;
-import com.ec.api.domain.OrderDetail;
-import com.ec.api.domain.OrderInfo;
-import com.ec.api.domain.PaymentInfo;
-import com.ec.api.domain.PromotionInfo;
-import com.ec.api.domain.PromotionSku;
-import com.ec.api.domain.ReceiveAddr;
-import com.ec.api.domain.Sku;
-import com.ec.api.domain.Task;
-import com.ec.api.domain.UmpInfo;
 import com.ec.api.domain.query.OrderInfoQuery;
 import com.ec.api.domain.query.PromotionSkuQuery;
 import com.ec.api.service.CartService;
@@ -63,6 +40,7 @@ import com.ec.api.service.vo.UmpPayServiceResultVo;
 public class OrderInfoServiceImpl implements OrderInfoService {
 	private static final Logger log = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
 
+	private UserInfoDao userInfoDao;
 	private OrderInfoDao orderInfoDao;
 	private ItemDao itemDao;
 	private OrderDetailDao  orderDetailDao;
@@ -89,6 +67,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	public Result createOrder(final OrderInfo order, HttpServletRequest request, HttpServletResponse response) {
 		final Result result = new Result();
 		try{
+			UserInfo userInfo = this.userInfoDao.selectByUserId(order.getUserId());
+
 			CartInfo cartInfo = cartService.getCartInfoByCookie(order.getUserId(), request);
 			
 			if(cartInfo == null){
@@ -100,7 +80,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			//设置基本信息
 			this.setBasicOrderInfo(order);
 			order.setIp(HttpUtils.getRemoteIp(request));
-			
+
+			//如果是分销商，则打上分销商标记
+			if(FlagBitUtil.checkSign(userInfo.getProperties(), 1)){
+				order.setProperties(FlagBitUtil.sign(order.getProperties(), 1));
+			}
 			//设置订单运费
 			order.setFreightMoney(cartInfo.getFreightMoney().multiply(new BigDecimal(100)).intValue());
 			//设置订单总金额
@@ -116,8 +100,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			if(order.getOrderType() != 2){
 				order.setOrderStatus(1);
 			}else{
-				//订单状态，默认支付方式是货到付款，订单状态为给客户回电确认真实发货时间
-				order.setOrderStatus(4);
+				//订单状态，默认支付方式是货到付款，订单状态为待发货
+				order.setOrderStatus(8);
 			}
 			//商品信息
 			final List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
@@ -126,7 +110,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			for(int i = 0 ; i < cartSkus.size() ; i++){
 				OrderDetail orderDetail = new OrderDetail();
 				CartSku sku = cartSkus.get(i);
-				
+
+				//如果是分销商品
+				if(FlagBitUtil.checkSign(sku.getProperties(), PropertyConstants.USER_FENXIAOSHANG)){
+					orderDetail.setProperties(FlagBitUtil.sign(orderDetail.getProperties(), PropertyConstants.USER_FENXIAOSHANG));
+				}
 				orderDetail.setUid(order.getUserId());
 				orderDetail.setItemId(sku.getItemId());
 				orderDetail.setItemImage(sku.getImage());
@@ -149,36 +137,37 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 						OrderDetail orderDetail = orderDetailList.get(i);
 						orderDetail.setOrderId(orderId);
 						orderDetailDao.insert(orderDetail);
-						
+
 						//扣库存
-//						Sku sku = new Sku();
-//						sku.setSkuId(orderDetail.getSkuId());
-//						sku.setStock(orderDetail.getNum());
-//						Integer delState = skuDao.delStock(sku);
-//						if(delState == null || delState == 0){
-//							//TODO 抛个异常，回滚事务
-//							throw new RuntimeException("商品库存不足");
-//						}
-						
-//						//TODO 扣除促销库存
+						Sku sku = new Sku();
+						sku.setSkuId(orderDetail.getSkuId());
+						sku.setStock(orderDetail.getNum());
+						Integer delState = skuDao.delStock(sku);
+						if(delState == null || delState == 0){
+							//TODO 抛个异常，回滚事务
+							throw new RuntimeException("商品["+orderDetail.getItemName()+"]库存不足");
+						}
+
+						//TODO 扣除促销库存
 //						for(int j=0;j<delPromotionInfoStock.size();j++){
 //							int delResult = promotionInfoDao.updatePromotionInfoStock(delPromotionInfoStock.get(j));
 //							if(delResult <= 0){
 //								throw new RuntimeException("促销商品库存不足,扣减失败");
 //							}
 //						}
+
 					}
 					
 					//添加任务表
-					Task task = new Task();
-					Map<String, Integer> map = new HashMap<String, Integer>();
-					map.put("orderId", order.getOrderId());
-					map.put("userId", order.getUserId());
-					task.setContent(JsonUtils.writeValue(map));//内容
-					task.setStatus(0);//初始状态
-					task.setType(1);//下单成功任务
-					task.setYn(1);//有效
-					taskDao.insert(task);
+//					Task task = new Task();
+//					Map<String, Integer> map = new HashMap<String, Integer>();
+//					map.put("orderId", order.getOrderId());
+//					map.put("userId", order.getUserId());
+//					task.setContent(JsonUtils.writeValue(map));//内容
+//					task.setStatus(0);//初始状态
+//					task.setType(1);//下单成功任务
+//					task.setYn(1);//有效
+//					taskDao.insert(task);
 					EcUtils.setSuccessResult(result);
 				}
 			});
@@ -192,6 +181,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 				return paymentInfoService.userCreatePayment(paymentInfo);
 			}
 			
+		}catch (RuntimeException e) {
+			log.error("下单异常，userId:"+order.getUserId(), e);
+			result.setResultMessage(e.getMessage());
+			result.setSuccess(false);
+			result.setResult(false);
 		}catch (Exception e) {
 			log.error("下单异常，userId:"+order.getUserId(), e);
 			EcUtils.setExceptionResult(result);
@@ -321,7 +315,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	/**
 	 * 查看该用户是否未生成过订单
 	 * @param uid
-	 * @param request
 	 * @return
 	 */
 	@Override
@@ -494,14 +487,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 						orderDetailDao.insert(orderDetail);
 						
 						//扣库存
-						Sku sku = new Sku();
-						sku.setSkuId(orderDetail.getSkuId());
-						sku.setStock(orderDetail.getNum());
-						Integer delState = skuDao.delStock(sku);
-						if(delState == null || delState == 0){
-							//TODO 抛个异常，回滚事务
-							throw new RuntimeException("商品库存不足");
-						}
+//						Sku sku = new Sku();
+//						sku.setSkuId(orderDetail.getSkuId());
+//						sku.setStock(orderDetail.getNum());
+//						Integer delState = skuDao.delStock(sku);
+//						if(delState == null || delState == 0){
+//							//TODO 抛个异常，回滚事务
+//							throw new RuntimeException("商品库存不足");
+//						}
 						
 //						//TODO 扣除促销库存
 //						for(int j=0;j<delPromotionInfoStock.size();j++){
@@ -909,6 +902,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
 	public void setPaymentInfoService(PaymentInfoService paymentInfoService) {
 		this.paymentInfoService = paymentInfoService;
+	}
+
+	public void setUserInfoDao(UserInfoDao userInfoDao) {
+		this.userInfoDao = userInfoDao;
 	}
 
 	public void setTaskDao(TaskDao taskDao) {

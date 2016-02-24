@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.ec.api.common.utils.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.httpclient.util.DateUtil;
@@ -23,10 +24,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import com.ec.api.common.utils.BFConstants;
-import com.ec.api.common.utils.DESUtil;
-import com.ec.api.common.utils.JsonUtils;
-import com.ec.api.common.utils.MD5Util;
 import com.ec.api.domain.OrderDetail;
 import com.ec.api.domain.PaymentInfo;
 import com.ec.api.domain.SkuList;
@@ -132,9 +129,10 @@ public class Test {
 //		System.out.println(System.currentTimeMillis());
 //        System.out.println(System.getProperty("user.dir"));;
 
-        String id = "15550141";
-        System.out.println(id.substring(id.length()-2,id.length()));
-        System.out.println(id.substring(id.length()-4,id.length()-2));
+//        String id = "15550141";
+//        System.out.println(id.substring(id.length()-2,id.length()));
+//        System.out.println(id.substring(id.length()-4,id.length()-2));
+
     }
 	
 	public static void listNodes(Element node){  

@@ -26,7 +26,7 @@
     <result column="postcode" property="postcode"  />
     <result column="address" property="address"  />
     <result column="regist_source" property="regist_source"  />
-    
+    <result column="properties" property="properties"  />
   </resultMap>
   
    <!-- 查询条件 -->
@@ -60,19 +60,23 @@
     </dynamic>
   </sql>
 
+  <sql id="searchColoum" >
+    USER_ID, MOBILE, PASSWORD, USER_TYPE, YN, REGISTER_TIME, REGISTER_IP, LAST_LOGIN_TIME,
+      LAST_LOGIN_IP, CREATED, MODIFIED, nickname, sex, user_level, province, city, country, email, headimgurl, truename, postcode, address, regist_source, properties
+  </sql>
+
   <select id="selectByPrimaryKey" resultMap="UserInfoResult" parameterClass="java.lang.Integer" >
-    select USER_ID, MOBILE, PASSWORD, USER_TYPE, YN, REGISTER_TIME, REGISTER_IP, LAST_LOGIN_TIME,
-      LAST_LOGIN_IP, CREATED, MODIFIED, nickname, sex, user_level, province, city, country, email, headimgurl, truename, postcode, address, regist_source
+    select <include refid="UserInfo.searchColoum" />
     from user_info
     where USER_ID = #userId:INTEGER#
   </select>
 
   <insert id="insert" parameterClass="com.ec.api.domain.UserInfo" >
     insert into user_info (MOBILE, PASSWORD, USER_TYPE, YN, REGISTER_TIME, REGISTER_IP,
-      LAST_LOGIN_TIME, LAST_LOGIN_IP, CREATED, MODIFIED, nickname, sex, user_level, province, city, country, email, headimgurl, truename, postcode, address, regist_source)
+      LAST_LOGIN_TIME, LAST_LOGIN_IP, CREATED, MODIFIED, nickname, sex, user_level, province, city, country, email, headimgurl, truename, postcode, address, regist_source, properties)
     values (#mobile:VARCHAR#, #password:VARCHAR#, #userType:INTEGER#,
       1, now(), #registerIp:VARCHAR#, #lastLoginTime:TIMESTAMP#,
-      #lastLoginIp:VARCHAR#, now(), now(), #nickname#, #sex#, #user_level#, #province#, #city#, #country#, #email#, #headimgurl#, #truename#, #postcode#, #address#, #regist_source#)
+      #lastLoginIp:VARCHAR#, now(), now(), #nickname#, #sex#, #user_level#, #province#, #city#, #country#, #email#, #headimgurl#, #truename#, #postcode#, #address#, #regist_source#, #properties#)
       <!-- 返回自增主键 -->
       <selectKey resultClass="java.lang.Integer" keyProperty="userId">
 			<![CDATA[SELECT @@IDENTITY AS USER_ID ]]>
@@ -111,7 +115,9 @@
       <isNotNull prepend="," property="truename" >
         truename = #truename#
       </isNotNull>
-      
+      <isNotNull prepend="," property="properties" >
+        properties = #properties#
+      </isNotNull>
     </dynamic>
     where USER_ID = #userId:INTEGER#
   </update>
@@ -122,16 +128,12 @@
   </select>
   
   <select id="selectByCondition" parameterClass="com.ec.api.domain.query.UserInfoQuery"  resultMap="UserInfoResult" >
-    select USER_ID, MOBILE, PASSWORD, USER_TYPE, YN, REGISTER_TIME, REGISTER_IP, LAST_LOGIN_TIME,
-      LAST_LOGIN_IP, CREATED, MODIFIED, nickname, sex, user_level, province, city, country, email, headimgurl, truename, postcode, address, regist_source
-    from user_info
+    select <include refid="UserInfo.searchColoum" /> from user_info
     <include refid="UserInfo.condition" />
   </select>
   
   <select id="selectByConditionForPage" parameterClass="com.ec.api.domain.query.UserInfoQuery"  resultMap="UserInfoResult">
-    select USER_ID, MOBILE, PASSWORD, USER_TYPE, YN, REGISTER_TIME, REGISTER_IP, LAST_LOGIN_TIME,
-      LAST_LOGIN_IP, CREATED, MODIFIED, nickname, sex, user_level, province, city, country, email, headimgurl, truename, postcode, address, regist_source
-    from user_info
+    select <include refid="UserInfo.searchColoum" /> from user_info
     <include refid="UserInfo.condition" />
     order by USER_ID DESC
   	limit #start#,#pageSize#

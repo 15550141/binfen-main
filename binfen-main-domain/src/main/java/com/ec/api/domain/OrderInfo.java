@@ -129,7 +129,7 @@ public class OrderInfo implements Serializable{
     private List<OrderDetail> orderDetails;
     
     /** 订单属性标记位 */
-    private Long orderProperty;
+    private Integer properties;
     
     /**
      * 订单标记位 key是位置，value 1 是有标
@@ -354,15 +354,15 @@ public class OrderInfo implements Serializable{
 		this.paymentType = paymentType;
 	}
 
-	public Long getOrderProperty() {
-		return orderProperty;
-	}
+    public Integer getProperties() {
+        return properties;
+    }
 
-	public void setOrderProperty(Long orderProperty) {
-		this.orderProperty = orderProperty;
-	}
+    public void setProperties(Integer properties) {
+        this.properties = properties;
+    }
 
-	public Map<Integer, Integer> getMapProp() {
+    public Map<Integer, Integer> getMapProp() {
 		return mapProp;
 	}
 

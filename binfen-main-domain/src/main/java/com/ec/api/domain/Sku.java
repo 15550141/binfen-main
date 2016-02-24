@@ -36,6 +36,9 @@ public class Sku implements Serializable{
 
     /** 销售价 */
     private Integer salePrice;
+
+    /** 分销价 */
+    private Integer fxPrice;
     
     /**
      * 原价
@@ -53,6 +56,8 @@ public class Sku implements Serializable{
     private Date modified;
     
     private Integer yn;
+
+    private Integer properties;
 
     public Integer getSkuId() {
         return skuId;
@@ -158,5 +163,24 @@ public class Sku implements Serializable{
 	public void setOriginalPrice(Integer originalPrice) {
 		this.originalPrice = originalPrice;
 	}
-    
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Integer getFxPrice() {
+        return fxPrice;
+    }
+
+    public void setFxPrice(Integer fxPrice) {
+        this.fxPrice = fxPrice;
+    }
+
+    public Integer getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Integer properties) {
+        this.properties = properties;
+    }
 }

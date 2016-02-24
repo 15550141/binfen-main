@@ -9,5 +9,10 @@
   <artifactId>binfen-main-domain</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <dependencies>
+    <dependency>
+      <groupId>com.binfen</groupId>
+      <artifactId>binfen-main-common</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>

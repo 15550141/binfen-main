@@ -10,11 +10,14 @@
     <result column="bar_code" property="barCode" jdbcType="VARCHAR" />
     <result column="Cost_price" property="costPrice"  />
     <result column="sale_price" property="salePrice"  />
+    <result column="fx_price" property="fxPrice"  />
     <result column="original_price" property="originalPrice"  />
     <result column="stock" property="stock"  />
+    <result column="properties" property="properties"  />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
     <result column="yn" property="yn"  />
+    <result column="properties" property="properties"  />
   </resultMap>
   
    <!-- 查询条件 -->
@@ -41,29 +44,42 @@
       <isNotNull prepend="and" property="salePrice" >
         sale_price = #salePrice:INTEGER#
       </isNotNull>
+      <isNotNull prepend="and" property="fxPrice" >
+        fx_price = #fxPrice:INTEGER#
+      </isNotNull>
       <isNotNull prepend="and" property="originalPrice" >
         original_price = #originalPrice#
       </isNotNull>
       <isNotNull prepend="and" property="stock" >
         stock = #stock:INTEGER#
       </isNotNull>
+      <isNotNull prepend="and" property="properties" >
+        properties = #properties#
+      </isNotNull>
       <isNotNull prepend="and" property="yn" >
         yn = #yn:INTEGER#
       </isNotNull>
+      <isNotNull prepend="and" property="properties" >
+        properties = #properties#
+      </isNotNull>
     </dynamic>
   </sql>
-  
+
+  <sql id="searchColoum">
+    SKU_ID, ITEM_ID, sales_property,sales_property_name , least_buy, bar_code, Cost_price, sale_price, fx_price, original_price, stock, properties, created, modified,yn,properties
+  </sql>
+
   <select id="selectByPrimaryKey" resultMap="SkuResult" parameterClass="java.lang.Integer" >
-    select SKU_ID, ITEM_ID, sales_property,sales_property_name , least_buy, bar_code, Cost_price, sale_price, original_price, stock, created, modified,yn
+    select <include refid="Sku.searchColoum" />
     from sku
     where SKU_ID = #skuId:INTEGER# and yn=1
   </select>
 
   <insert id="insert" parameterClass="com.ec.api.domain.Sku" >
-    insert into sku ( ITEM_ID, sales_property, least_buy , bar_code ,Cost_price, sale_price, original_price, stock, created,
-      modified,yn)
+    insert into sku ( ITEM_ID, sales_property, least_buy , bar_code ,Cost_price, sale_price, fx_price, original_price, stock, properties, created,
+      modified,yn,properties)
     values ( #itemId:INTEGER#, #salesProperty:VARCHAR#, #leastBuy:INTEGER#,#barCode:VARCHAR#,
-      #costPrice:INTEGER#, #salePrice:INTEGER#, #stock:INTEGER#, now(),now(), 1)
+      #costPrice:INTEGER#, #salePrice:INTEGER#, #fxPrice#,#stock:INTEGER#, #properties#, now(),now(), 1, #properties#)
       <!-- 返回自增主键 -->
       <selectKey resultClass="java.lang.Integer" keyProperty="skuId">
 			<![CDATA[SELECT @@IDENTITY AS SKU_ID ]]>
@@ -92,14 +108,23 @@
       <isNotNull prepend="," property="salePrice" >
         sale_price = #salePrice:INTEGER#
       </isNotNull>
+      <isNotNull prepend="," property="fxPrice" >
+        fx_price = #fxPrice:INTEGER#
+      </isNotNull>
       <isNotNull prepend="," property="originalPrice" >
         original_price = #originalPrice:INTEGER#
       </isNotNull>
       <isNotNull prepend="," property="stock" >
         stock = #stock:INTEGER#
       </isNotNull>
+      <isNotNull prepend="," property="properties" >
+        properties = #properties#
+      </isNotNull>
       <isNotNull prepend="," property="yn" >
         yn = #yn:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="properties" >
+        properties = #properties#
       </isNotNull>
     </dynamic>
     where SKU_ID = #skuId:INTEGER#
@@ -107,7 +132,7 @@
   
   <update id="delStock" parameterClass="com.ec.api.domain.Sku" >
     update sku set modified=now(),stock=stock-#stock#
-    where SKU_ID = #skuId:INTEGER# and stock>#stock#
+    where SKU_ID = #skuId:INTEGER# and stock>=#stock#
   </update>
   
   <select id="countByCondition" parameterClass="com.ec.api.domain.query.SkuQuery" resultClass="java.lang.Integer" >
@@ -116,15 +141,13 @@
   </select>
   
   <select id="selectByCondition" parameterClass="com.ec.api.domain.query.SkuQuery" resultMap="SkuResult" >
-    select SKU_ID, ITEM_ID, sales_property,sales_property_name, least_buy, bar_code, Cost_price, sale_price, original_price, stock, created, modified, yn
-    from sku
+    select <include refid="Sku.searchColoum" /> from sku
     <include refid="Sku.condition" />
     order by SKU_ID
   </select>
   
   <select id="selectByConditionForPage" parameterClass="com.ec.api.domain.query.SkuQuery" resultMap="SkuResult" >
-    select SKU_ID, ITEM_ID, sales_property,sales_property_name, least_buy, bar_code, Cost_price, sale_price, original_price, stock, created, modified, yn
-    from sku
+    select <include refid="Sku.searchColoum" /> from sku
     <include refid="Sku.condition" />
     order by SKU_ID
   	limit #start#,#pageSize#

@@ -24,6 +24,16 @@ public class UserInfoQuery extends BaseSearchForMysqlVo implements Serializable{
     /** 有效性 */
     private Integer yn;
 
+    private Integer properties;
+
+    public Integer getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Integer properties) {
+        this.properties = properties;
+    }
+
     public Integer getUserId() {
         return userId;
     }

@@ -470,36 +470,36 @@ var Cart = {
         $('.cart-body .navbar .container .navbar-text').html('合计：￥'+cart.totleSalePrice+'<p>商品总价￥'+cart.totleOriginalPrice+'， 运费￥'+cart.freightMoney+'，优惠￥'+cart.totlePreferentialPrice+'</p>');
     },
     pmtT:function(cart){
-        var manjian = '<li class="donationTips" data-toggle="tooltip" data-placement="top" title="首单满19元，立减5元，快去凑单吧" ><i>减</i>首单满19元，立减5元，快去凑单吧</li>';
-        var manzeng = '<li class="donationTips" data-toggle="tooltip" data-placement="top" title="满50元，送越南白心火龙果，快去凑单吧 " ><i>促</i>满50元，送越南白心火龙果，快去凑单吧 </li>';
-        var yunfei = '<li class="donationTips" data-toggle="tooltip" data-placement="top" title="满39元免配送费，快去凑单吧 " ><i>包</i>满39元免配送费，快去凑单吧</li>';
-        /*优惠提醒*/
-        if ($('.cart-body .m-carttips').length) {$('.cart-body .m-carttips').remove();};
-        
-        var tipEl = $('<div class="m-carttips"><ul class="list-unstyled"></ul></div>');
-            
-        if(cart.totleOriginalPrice < 19 && cart.first){
-        	tipEl.find('ul').append(manjian);
-        }
-        if(cart.totleOriginalPrice < 50){
-        	tipEl.find('ul').append(manzeng);
-        }
-        if(cart.freightMoney > 0){
-        	tipEl.find('ul').append(yunfei);
-        }
-        
-        $('.cart-body #m-cart').append(tipEl);
+        //var manjian = '<li class="donationTips" data-toggle="tooltip" data-placement="top" title="首单满19元，立减5元，快去凑单吧" ><i>减</i>首单满19元，立减5元，快去凑单吧</li>';
+        //var manzeng = '<li class="donationTips" data-toggle="tooltip" data-placement="top" title="满50元，送越南白心火龙果，快去凑单吧 " ><i>促</i>满50元，送越南白心火龙果，快去凑单吧 </li>';
+        //var yunfei = '<li class="donationTips" data-toggle="tooltip" data-placement="top" title="满39元免配送费，快去凑单吧 " ><i>包</i>满39元免配送费，快去凑单吧</li>';
+        ///*优惠提醒*/
+        //if ($('.cart-body .m-carttips').length) {$('.cart-body .m-carttips').remove();};
+        //
+        //var tipEl = $('<div class="m-carttips"><ul class="list-unstyled"></ul></div>');
+        //
+        //if(cart.totleOriginalPrice < 19 && cart.first){
+        //	tipEl.find('ul').append(manjian);
+        //}
+        //if(cart.totleOriginalPrice < 50){
+        //	tipEl.find('ul').append(manzeng);
+        //}
+        //if(cart.freightMoney > 0){
+        //	tipEl.find('ul').append(yunfei);
+        //}
+        //
+        //$('.cart-body #m-cart').append(tipEl);
     },
     itemT:function(cart){
-        var T = '<li type="normal" salespropertyname="规格：1个(约700g)" skuid="100019" itemid="100019" id="zengpin"><a href="/detail/index/100019.html"><img alt="" src="/misc/style/image/2015102302.jpg" data-original="/misc/style/image/2015102302.jpg" class="lazy pull-left" style="display: block;"><div class="m-cartlist-info"><h3>越南白心火龙果（赠品）</h3><h4>规格：1个(约700g)</h4><h5>￥0</h5></div></a></li>';
-        
-        if ($('#zengpin').length) {
-        	$('#zengpin').remove();
-        };
-            
-        if(cart.totleOriginalPrice >= 50){
-        	$('.cart-body #m-cart .m-cartlist .list-unstyled').append(T);
-        }
+        //var T = '<li type="normal" salespropertyname="规格：1个(约700g)" skuid="100019" itemid="100019" id="zengpin"><a href="/detail/index/100019.html"><img alt="" src="/misc/style/image/2015102302.jpg" data-original="/misc/style/image/2015102302.jpg" class="lazy pull-left" style="display: block;"><div class="m-cartlist-info"><h3>越南白心火龙果（赠品）</h3><h4>规格：1个(约700g)</h4><h5>￥0</h5></div></a></li>';
+        //
+        //if ($('#zengpin').length) {
+        //	$('#zengpin').remove();
+        //};
+        //
+        //if(cart.totleOriginalPrice >= 50){
+        //	$('.cart-body #m-cart .m-cartlist .list-unstyled').append(T);
+        //}
         
         
     }

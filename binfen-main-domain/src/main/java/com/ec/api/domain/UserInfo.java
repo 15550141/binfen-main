@@ -1,5 +1,7 @@
 package com.ec.api.domain;
 
+import com.ec.api.common.utils.JsonUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -75,6 +77,8 @@ public class UserInfo implements Serializable{
     
     private BusinessUserExt businessUserExt;
 
+    /** 用户属性 */
+    private Integer properties;
 
 	public Integer getUserId() {
 		return userId;
@@ -267,5 +271,17 @@ public class UserInfo implements Serializable{
 	public void setRegist_source(Integer regist_source) {
 		this.regist_source = regist_source;
 	}
-    
+
+    public Integer getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Integer properties) {
+        this.properties = properties;
+    }
+
+    @Override
+    public String toString(){
+        return JsonUtils.writeValue(this);
+    }
 }

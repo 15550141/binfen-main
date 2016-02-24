@@ -45,9 +45,6 @@ public final class JsonUtils {
 	
 	/**
 	 * 
-	 * @param <T>
-	 * @param josnStr
-	 * @param cls
 	 * @return
 	 * @throws RuntimeException 
 	 */

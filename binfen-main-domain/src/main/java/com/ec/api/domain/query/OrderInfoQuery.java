@@ -99,6 +99,16 @@ public class OrderInfoQuery extends BaseSearchForMysqlVo implements Serializable
     
     private String tradeNo;
 
+    private Integer properties;
+
+    public Integer getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Integer properties) {
+        this.properties = properties;
+    }
+
     public Integer getOrderId() {
         return orderId;
     }

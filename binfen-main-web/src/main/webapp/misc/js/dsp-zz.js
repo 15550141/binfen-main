@@ -103,7 +103,7 @@ function getWxConfig(){
 				] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 			});
 			
-			wxShare('http://www.binfenguoyuan.cn/misc/style/logo2.jpg', window.location.href, "鲜果味道。首单满19立减5元", "首单满19立减5元，满50元更有好礼赠送！秦皇岛人自己的电商平台！");
+			wxShare('http://www.binfenguoyuan.cn/misc/style/logo2.jpg', window.location.href, "鲜果味道", "秦皇岛人自己的电商平台！");
 		}
 	});
 }

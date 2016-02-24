@@ -57,6 +57,8 @@ public class OrderDetail implements Serializable{
     /** 修改时间 */
     private Date modified;
 
+    private Integer properties;
+
     public Integer getId() {
         return id;
     }
@@ -169,4 +171,12 @@ public class OrderDetail implements Serializable{
 		
 		return new BigDecimal(this.price).divide(new BigDecimal(100));
 	}
+
+    public Integer getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Integer properties) {
+        this.properties = properties;
+    }
 }

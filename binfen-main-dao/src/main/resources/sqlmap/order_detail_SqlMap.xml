@@ -15,20 +15,22 @@
     <result column="item_image" property="itemImage" jdbcType="VARCHAR" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    <result column="properties" property="properties"/>
   </resultMap>
 
+  <sql id="searchColoum">
+    id, order_id, uid, sku_id, item_id, item_name, sales_property, sales_property_name, price, num, item_image, created, modified, properties
+  </sql>
   <select id="selectByOrderId" resultMap="OrderDetailResult" parameterClass="java.lang.Integer" >
-    select id, order_id, uid, sku_id, item_id, item_name, sales_property, sales_property_name, price, num, item_image, created, modified
-    from order_detail
+    select <include refid="OrderDetail.searchColoum" /> from order_detail
     where order_id = #orderId:INTEGER#
   </select>
   
     <insert id="insert" parameterClass="com.ec.api.domain.OrderDetail" >
     insert into order_detail (order_id, uid, sku_id, item_id, item_name, sales_property, sales_property_name, price, num, item_image,
-      created, modified)
+      created, modified, properties)
     values ( #orderId:INTEGER#, #uid#, #skuId:INTEGER#, #itemId:INTEGER#, #itemName:VARCHAR#, #salesProperty:VARCHAR#, #salesPropertyName#,
-    	 #price:INTEGER#, #num:INTEGER#,
-      #itemImage:VARCHAR#, now(), now())
+    	 #price:INTEGER#, #num:INTEGER#, #itemImage:VARCHAR#, now(), now(), #properties#)
       <!-- 返回自增主键 -->
       <selectKey resultClass="java.lang.Integer" keyProperty="id">
 			<![CDATA[SELECT @@IDENTITY AS id ]]>

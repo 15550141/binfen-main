@@ -99,6 +99,7 @@
 			    </div>
 				<div class="m-carttips">
 					<ul class="list-unstyled">
+                        <!--
 						#if($!cartInfo.totleOriginalPrice < 19 && $!cartInfo.first)
 							<li  class="donationTips" data-toggle="tooltip" data-placement="top" title="首单满19元，立减5元，快去凑单吧" >
 								<i>减</i>首单满19元，立减5元，快去凑单吧
@@ -114,6 +115,7 @@
     							<i>包</i>满39元免配送费，快去凑单吧
     						</li>
 						#end
+						-->
 					</ul> 
 					
 			    </div>

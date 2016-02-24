@@ -135,9 +135,10 @@
                                     <input type="hidden" value="微信支付" class="pay_name">
                                     <input type="hidden" value="在线支付" class="payment_name">
                                     <input type="radio" id="radiopay1" name="radiopay" class="show">
-                                    <label for="radiopay1"><img style="height:20px;margin-right:5px;" src="/misc/style/image/weixinzhifutubiao.png">微信支付#if($!cartInfo.totlePreferentialPrice!=0)(首单满19立减5元)#end</label>
+                                    <label for="radiopay1"><img style="height:20px;margin-right:5px;" src="/misc/style/image/weixinzhifutubiao.png">微信支付#if($!cartInfo.totlePreferentialPrice!=0)#end</label>
 								</li>
 							</ul>
+							<!--
 							<h5>货到付款</h5>
                             <ul class="list-unstyled modal-orderpay-list">
 								<li class="clearfix">
@@ -157,6 +158,7 @@
                                     <label for="radiopay1"><img style="height:20px;margin-right:5px;" src="/misc/style/image/huodaofukuantubiao.jpg">银行卡</label>
 								</li>
 							</ul>
+							-->
 							
 							<!--
 							<h5>帐户余额支付</h5>
@@ -228,7 +230,7 @@
 						<ul class="list-unstyled">
            					#foreach($sku in $cartInfo.skuList)
            						<li>
-									<a href="/detail/index/$!{sku.itemId}.html">
+                                    <a href="#if($!sku.itemId >100085)/item/detail?id=$!{sku.itemId}&skuId=$!{sku.skuId}#else/detail/index/$!{sku.itemId}.html#end">
 	                  					<img class="lazy pull-left" data-original="$!sku.image" src="$!sku.image" alt="">
 	                                    <div class="m-cartlist-info">
 	                                        <h3>$!sku.name #if($!sku.gift)（赠品）#end</h3>

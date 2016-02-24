@@ -37,8 +37,6 @@ public interface OrderInfoService {
 	
 	/**
 	 * 用户所属订单列表查看（细分）
-	 * @param orderId
-	 * @param lockReason
 	 * @return
 	 */
 	public PaginatedArrayList<OrderInfo> getOrderInfosByOrderInfoQuery(OrderInfoQuery orderInfoQuery);

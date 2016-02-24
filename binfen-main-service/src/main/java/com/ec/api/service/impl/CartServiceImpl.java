@@ -11,6 +11,10 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ec.api.common.utils.FlagBitUtil;
+import com.ec.api.common.utils.PropertyConstants;
+import com.ec.api.dao.*;
+import com.ec.api.domain.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,17 +23,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.ec.api.common.utils.CookieUtils;
-import com.ec.api.dao.CategoryDao;
-import com.ec.api.dao.ItemDao;
-import com.ec.api.dao.PropertyDao;
-import com.ec.api.dao.PropertyValueDao;
-import com.ec.api.domain.CartInfo;
-import com.ec.api.domain.CartSku;
-import com.ec.api.domain.Category;
-import com.ec.api.domain.Item;
-import com.ec.api.domain.Property;
-import com.ec.api.domain.PropertyValue;
-import com.ec.api.domain.Sku;
 import com.ec.api.domain.query.CategoryQuery;
 import com.ec.api.domain.query.PropertyQuery;
 import com.ec.api.domain.query.PropertyValueQuery;
@@ -50,6 +43,8 @@ public class CartServiceImpl implements CartService {
 	private ItemService itemService;
 	
 	private OrderInfoService orderInfoService;
+
+	private UserInfoDao userInfoDao;
 	
 	private static final Logger log = LoggerFactory.getLogger(CartServiceImpl.class);
 
@@ -224,7 +219,17 @@ public class CartServiceImpl implements CartService {
 						cart.setSalesProperty(sku.getSalesProperty());
 						cart.setSalesPropertyName(sku.getSalesPropertyName());
 						cart.setName(item.getItemName());
-						cart.setSkuPrice(new BigDecimal(sku.getSalePrice()).divide(new BigDecimal(100)));
+
+						UserInfo userInfo = this.userInfoDao.selectByUserId(uid);
+						//如果是分销商品并且是分销商买家，则商品价格为分销商价
+						if(FlagBitUtil.checkSign(sku.getProperties(), PropertyConstants.USER_FENXIAOSHANG)
+								&& FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_FENXIAOSHANG)){
+							cart.setSkuPrice(new BigDecimal(sku.getFxPrice()).divide(new BigDecimal(100)));
+						}else {
+							cart.setSkuPrice(new BigDecimal(sku.getSalePrice()).divide(new BigDecimal(100)));
+						}
+						cart.setProperties(sku.getProperties());
+
 						//累计购物车总金额
 						totleSalePrice = totleSalePrice.add(cart.getSkuPrice().multiply(new BigDecimal(cart.getNum())));
 						//累计购物车总原价金额
@@ -236,20 +241,20 @@ public class CartServiceImpl implements CartService {
 				}
 			}
 			
-			//满赠逻辑
-			if(totleSalePrice.compareTo(new BigDecimal(50))>= 0){
-				CartSku cartSku = new CartSku();
-				cartSku.setImage("/misc/style/image/2015102302.jpg");
-				cartSku.setItemId(100019);
-				cartSku.setName("越南白心火龙果");
-				cartSku.setNum(1);
-				cartSku.setGift(true);
-				cartSku.setSalesPropertyName("规格：1个(约700g)");
-				cartSku.setSkuId(100019);
-				cartSku.setSkuPrice(new BigDecimal(0));
-				
-				cartInfo.getSkuList().add(cartSku);
-			}
+			//TODO 满赠逻辑
+//			if(totleSalePrice.compareTo(new BigDecimal(50))>= 0){
+//				CartSku cartSku = new CartSku();
+//				cartSku.setImage("/misc/style/image/2015102302.jpg");
+//				cartSku.setItemId(100019);
+//				cartSku.setName("越南白心火龙果");
+//				cartSku.setNum(1);
+//				cartSku.setGift(true);
+//				cartSku.setSalesPropertyName("规格：1个(约700g)");
+//				cartSku.setSkuId(100019);
+//				cartSku.setSkuPrice(new BigDecimal(0));
+//
+//				cartInfo.getSkuList().add(cartSku);
+//			}
 			//满赠逻辑结束
 			
 			//TODO 满减逻辑	满19块钱减5块
@@ -263,10 +268,10 @@ public class CartServiceImpl implements CartService {
 			//满减逻辑结束
 			
 			//运费逻辑开始
-			if(totleSalePrice.compareTo(new BigDecimal(39)) < 0){
-				freightMoney = new BigDecimal(4);//不满39，添加4元运费
+//			if(totleSalePrice.compareTo(new BigDecimal(39)) < 0){
+				freightMoney = new BigDecimal(4);//不满39，添加4元运费	//目前变成固定4元运费
 				totleSalePrice = totleSalePrice.add(freightMoney);//销售价加上运费
-			}
+//			}
 			//运费逻辑结束
 			
 			//直接清空对象，释放内存
@@ -313,5 +318,8 @@ public class CartServiceImpl implements CartService {
 	public void setOrderInfoService(OrderInfoService orderInfoService) {
 		this.orderInfoService = orderInfoService;
 	}
-	
+
+	public void setUserInfoDao(UserInfoDao userInfoDao) {
+		this.userInfoDao = userInfoDao;
+	}
 }

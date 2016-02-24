@@ -32,8 +32,15 @@
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
     <result column="parent_order_id" property="parentOrderId" />
     <result column="yn" property="yn" />
+    <result column="properties" property="properties" />
   </resultMap>
-  
+
+    <sql id="searchColoum">
+        order_id, order_type, payment_type, payment_id, vender_user_id, user_id, consignee_name, consignee_province, consignee_city, consignee_county,
+        consignee_address, consignee_mobile, remark, freight_money, order_money, discount_money,discount_info, order_time, pay_time ,hope_arrival_time,send_out_time ,finish_time,
+        order_status, ip, lock_status, lock_reason, created, modified, parent_order_id ,yn, properties
+    </sql>
+
   <!-- 查询条件 -->
   <sql id="condition" >
   	<dynamic prepend="where" >
@@ -109,13 +116,15 @@
       <isNotNull prepend="and" property="lockReason" >
         lock_reason = #lockReason:VARCHAR#
       </isNotNull>
+      <isNotNull prepend="and" property="properties" >
+        properties = #properties#
+      </isNotNull>
+
     </dynamic>
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="OrderInfoResult" parameterClass="java.lang.Integer" >
-    select order_id, order_type, payment_type, payment_id, vender_user_id, user_id, consignee_name, consignee_province, consignee_city, consignee_county,
-    consignee_address, consignee_mobile, remark, freight_money, order_money, discount_money,discount_info, order_time, pay_time , hope_arrival_time, send_out_time ,finish_time,
-    order_status, ip, lock_status, lock_reason, created, modified, parent_order_id ,yn 
+    select <include refid="OrderInfo.searchColoum" />
     from order_info
     where order_id = #orderId:INTEGER#
   </select>
@@ -123,10 +132,10 @@
   <insert id="insert" parameterClass="com.ec.api.domain.OrderInfo" >
     insert into order_info ( order_type, payment_type, payment_id, vender_user_id, user_id, consignee_name, consignee_province, consignee_city, consignee_county,
     consignee_address, consignee_mobile, remark, freight_money, order_money, discount_money,discount_info, order_time, pay_time ,hope_arrival_time ,send_out_time ,finish_time,
-    order_status, ip, lock_status, lock_reason, created, modified, parent_order_id ,yn )
+    order_status, ip, lock_status, lock_reason, created, modified, parent_order_id ,yn ,properties )
     values (#orderType#, #paymentType#, #paymentId#, #venderUserId#, #userId#, #consigneeName#, #consigneeProvince#, #consigneeCity#, #consigneeCounty#,
     #consigneeAddress#, #consigneeMobile#, #remark#, #freightMoney#, #orderMoney#, #discountMoney#, #discountInfo#, now(), #payTime# ,#hopeArrivalTime#,#sendOutTime# ,#finishTime#,
-    #orderStatus#, #ip#, #lockStatus#, #lockReason#, now(), #modified#, #parentOrderId# ,#yn# )
+    #orderStatus#, #ip#, #lockStatus#, #lockReason#, now(), #modified#, #parentOrderId# ,#yn#, #properties#)
       <!-- 返回自增主键 -->
       <selectKey resultClass="java.lang.Integer" keyProperty="orderId">
 			<![CDATA[SELECT @@IDENTITY AS order_id ]]>
@@ -206,6 +215,9 @@
       <isNotNull prepend="," property="lockReason" >
         lock_reason = #lockReason:VARCHAR#
       </isNotNull>
+      <isNotNull prepend="," property="properties" >
+          properties = #properties#
+      </isNotNull>
     </dynamic>
     where order_id = #orderId:INTEGER#
   </update>
@@ -220,17 +232,13 @@
   </select>
   
   <select id="selectByCondition" parameterClass="com.ec.api.domain.query.OrderInfoQuery" resultMap="OrderInfoResult" >
-    select order_id, order_type, payment_type, payment_id, vender_user_id, user_id, consignee_name, consignee_province, consignee_city, consignee_county,
-    consignee_address, consignee_mobile, remark, freight_money, order_money, discount_money,discount_info, order_time, pay_time ,hope_arrival_time,send_out_time ,finish_time,
-    order_status, ip, lock_status, lock_reason, created, modified, parent_order_id ,yn 
+    select <include refid="OrderInfo.searchColoum" />
     from order_info
     <include refid="OrderInfo.condition" />
   </select>
   
   <select id="selectByConditionForPage" parameterClass="com.ec.api.domain.query.OrderInfoQuery" resultMap="OrderInfoResult" >
-    select order_id, order_type, payment_type, payment_id, vender_user_id, user_id, consignee_name, consignee_province, consignee_city, consignee_county,
-    consignee_address, consignee_mobile, remark, freight_money, order_money, discount_money,discount_info, order_time, pay_time ,hope_arrival_time,send_out_time ,finish_time,
-    order_status, ip, lock_status, lock_reason, created, modified, parent_order_id ,yn 
+    select <include refid="OrderInfo.searchColoum" />
     from order_info
     <include refid="OrderInfo.condition" />
     order by order_id desc
@@ -238,9 +246,7 @@
   </select>
   
    <select id="selectByUnfinishedOrder" parameterClass="com.ec.api.domain.query.OrderInfoQuery" resultMap="OrderInfoResult" >
-    select order_id, order_type, payment_type, payment_id, vender_user_id, user_id, consignee_name, consignee_province, consignee_city, consignee_county,
-    consignee_address, consignee_mobile, remark, freight_money, order_money, discount_money,discount_info, order_time, pay_time ,hope_arrival_time,send_out_time ,finish_time,
-    order_status, ip, lock_status, lock_reason, created, modified, parent_order_id ,yn 
+    select <include refid="OrderInfo.searchColoum" />
     from order_info where order_status != 50 and order_status != 51 and user_id=#userId# 
     order by order_id desc
   	limit #start#,#pageSize#
