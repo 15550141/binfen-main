@@ -58,6 +58,8 @@ public class CartSku implements Serializable {
 	 */
 	private boolean gift = false;
 
+	private Integer itemStatus;
+
 	private Integer properties;
 
 	public Integer getItemId() {
@@ -164,5 +166,13 @@ public class CartSku implements Serializable {
 
 	public void setProperties(Integer properties) {
 		this.properties = properties;
+	}
+
+	public Integer getItemStatus() {
+		return itemStatus;
+	}
+
+	public void setItemStatus(Integer itemStatus) {
+		this.itemStatus = itemStatus;
 	}
 }

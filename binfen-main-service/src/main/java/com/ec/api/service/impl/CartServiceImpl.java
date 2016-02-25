@@ -209,7 +209,7 @@ public class CartServiceImpl implements CartService {
 				if(item == null){
 					throw new RuntimeException(cart.getItemId() + "商品不存在");
 				}
-				
+
 				List<Sku> skuList = item.getSkuList();
 				
 				for(int j = 0 ; j < skuList.size() ; j ++){
@@ -229,6 +229,8 @@ public class CartServiceImpl implements CartService {
 							cart.setSkuPrice(new BigDecimal(sku.getSalePrice()).divide(new BigDecimal(100)));
 						}
 						cart.setProperties(sku.getProperties());
+
+						cart.setItemStatus(item.getItemStatus());
 
 						//累计购物车总金额
 						totleSalePrice = totleSalePrice.add(cart.getSkuPrice().multiply(new BigDecimal(cart.getNum())));

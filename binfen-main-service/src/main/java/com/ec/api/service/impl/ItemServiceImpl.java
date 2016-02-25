@@ -104,7 +104,14 @@ public class ItemServiceImpl implements ItemService {
 		}
 		return null;
 	}
-	
+
+	@Override
+	public List<Item> getAll() {
+		ItemQuery query = new ItemQuery();
+		query.setItemStatus(1);//上架
+		return itemDao.selectByCondition(query);
+	}
+
 	@Override
 	public Result getItemByItemQuery(ItemQuery itemQuery) {
 		Result result = new Result();

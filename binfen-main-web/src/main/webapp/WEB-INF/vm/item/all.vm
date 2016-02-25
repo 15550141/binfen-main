@@ -1,0 +1,41 @@
+#set($title="鲜果味道")
+#parse("/WEB-INF/vm/common/head.vm")
+<nav class="navbar navbar-default navbar-fixed-top m-component-nav" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header text-center clearfix">
+            <a class="navbar-func pull-left" href="/"><span class="glyphicon fdayicon fdayicon-home"></span></a>
+				<span class="pull-right navbar-func">
+	               	<a href="/user" class="navbar-login"><span class="glyphicon fdayicon fdayicon-login"></span></a>
+	                <a href="/cart" class="navbar-cart"><span class="glyphicon fdayicon fdayicon-cart"></span></a>
+     			</span>
+            <span class="navbar-title">全部鲜果</span>
+        </div>
+    </div>
+</nav>
+
+<section class="m-component-prolist" id="m-prolist">
+    <div id="container">
+        <ul class="list-unstyled">
+            #foreach($item in $list)
+                <li>
+                    <a href="#if($!item.itemId>100085)/item/detail?id=$!{item.itemId}#else/detail/index/$!{item.itemId}.html#end" title="$!item.itemName">
+                        <img class="lazy pull-left" src="$!item.itemImage">
+                        <div class="m-prolist-info" pid="" ppid="" salesPropertyName="" type="normal" pno="2150609103">
+                            <h3>$!item.itemName</h3>
+                            <h4></h4>
+                            <h5></h5>
+                            <!-- <span class="m-prolist-car"><i class="glyphicon fdayicon fdayicon-procart"></i></span> -->
+                        </div>
+                    </a>
+                </li>
+			#end
+        </ul>
+    </div>
+</section>
+
+<div class="m-component-float">
+    <ul class="list-unstyled">
+        <li id="goToTop" style="display:none;"><span class="glyphicon fdayicon fdayicon-toTop"></span></li>
+    </ul>
+</div>
+#parse("/WEB-INF/vm/common/bottom.vm")

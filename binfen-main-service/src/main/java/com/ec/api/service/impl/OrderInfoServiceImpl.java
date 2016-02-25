@@ -111,6 +111,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 				OrderDetail orderDetail = new OrderDetail();
 				CartSku sku = cartSkus.get(i);
 
+				if(sku.getItemStatus() != 1){
+//					throw new RuntimeException("商品["+sku.getName()+"]已下架");
+				}
 				//如果是分销商品
 				if(FlagBitUtil.checkSign(sku.getProperties(), PropertyConstants.USER_FENXIAOSHANG)){
 					orderDetail.setProperties(FlagBitUtil.sign(orderDetail.getProperties(), PropertyConstants.USER_FENXIAOSHANG));

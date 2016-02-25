@@ -13,6 +13,8 @@ import com.ec.api.service.result.Result;
 public interface ItemService {
 	
 	public Item getItemByItemId(Integer itemId);
+
+	public List<Item> getAll();
 	
 	/**
 	 * 根据条件查询商品相信信息列表

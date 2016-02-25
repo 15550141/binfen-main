@@ -1,6 +1,7 @@
 package com.ec.api.web.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -77,6 +78,18 @@ public class ItemController extends BaseController {
 			log.error("", e);
 		}
 
+		return "error";
+	}
+
+	@RequestMapping(value="all", method={RequestMethod.GET, RequestMethod.POST})
+	public String all(HttpServletRequest request,HttpServletResponse response, ModelMap context){
+		try{
+			List<Item> list = itemService.getAll();
+			context.put("list", list);
+			return "item/all";
+		}catch (Exception e) {
+			log.error("", e);
+		}
 		return "error";
 	}
 	
