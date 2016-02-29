@@ -162,15 +162,15 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 					}
 					
 					//添加任务表
-//					Task task = new Task();
-//					Map<String, Integer> map = new HashMap<String, Integer>();
-//					map.put("orderId", order.getOrderId());
-//					map.put("userId", order.getUserId());
-//					task.setContent(JsonUtils.writeValue(map));//内容
-//					task.setStatus(0);//初始状态
-//					task.setType(1);//下单成功任务
-//					task.setYn(1);//有效
-//					taskDao.insert(task);
+					Task task = new Task();
+					Map<String, Integer> map = new HashMap<String, Integer>();
+					map.put("orderId", order.getOrderId());
+					map.put("userId", order.getUserId());
+					task.setContent(JsonUtils.writeValue(map));//内容
+					task.setStatus(0);//初始状态
+					task.setType(1);//下单成功任务
+					task.setYn(1);//有效
+					taskDao.insert(task);
 					EcUtils.setSuccessResult(result);
 				}
 			});
