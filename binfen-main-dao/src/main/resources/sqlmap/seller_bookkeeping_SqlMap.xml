@@ -19,9 +19,6 @@
   
   <sql id="condition" >
   	<dynamic prepend="where" >
-  	  <isNotNull prepend="and" property="venderUserId" >
-        vender_user_id = #venderUserId:INTEGER#
-      </isNotNull>
       <isNotNull prepend="and" property="startTime" >
        <![CDATA[
  			created > #startTime:TIMESTAMP#
