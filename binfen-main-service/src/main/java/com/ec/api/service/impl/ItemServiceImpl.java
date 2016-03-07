@@ -113,6 +113,11 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	public List<Item> getAll(ItemQuery query) {
+		return itemDao.selectByCondition(query);
+	}
+
+	@Override
 	public Result getItemByItemQuery(ItemQuery itemQuery) {
 		Result result = new Result();
 		try{

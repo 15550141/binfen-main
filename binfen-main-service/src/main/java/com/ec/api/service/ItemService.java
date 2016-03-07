@@ -15,6 +15,8 @@ public interface ItemService {
 	public Item getItemByItemId(Integer itemId);
 
 	public List<Item> getAll();
+
+	public List<Item> getAll(ItemQuery query);
 	
 	/**
 	 * 根据条件查询商品相信信息列表

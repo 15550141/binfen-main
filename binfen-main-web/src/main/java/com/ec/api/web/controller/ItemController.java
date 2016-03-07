@@ -92,6 +92,57 @@ public class ItemController extends BaseController {
 		}
 		return "error";
 	}
+
+	/**
+	 * 所有水果
+	 * @param request
+	 * @param response
+	 * @param context
+	 * @return
+	 */
+	@RequestMapping(value="allsg", method={RequestMethod.GET, RequestMethod.POST})
+	public String allsg(HttpServletRequest request,HttpServletResponse response, ModelMap context){
+		try{
+			ItemQuery query = new ItemQuery();
+			query.setItemStatus(1);//上架
+			query.setCategoryId2(12);//水果
+			List<Item> list = itemService.getAll(query);
+			context.put("list", list);
+			return "item/all";
+		}catch (Exception e) {
+			log.error("", e);
+		}
+		return "error";
+	}
+
+	/**
+	 * 所有干果
+	 * @param request
+	 * @param response
+	 * @param context
+     * @return
+     */
+	@RequestMapping(value="allgg", method={RequestMethod.GET, RequestMethod.POST})
+	public String allgg(HttpServletRequest request,HttpServletResponse response, ModelMap context){
+		try{
+			ItemQuery query = new ItemQuery();
+			query.setItemStatus(1);//上架
+			query.setCategoryId2(22);//水果
+			List<Item> list = itemService.getAll(query);
+
+			ItemQuery query2 = new ItemQuery();
+			query2.setItemStatus(1);//上架
+			query2.setCategoryId2(49);//水果
+			List<Item> list2 = itemService.getAll(query2);
+
+			list.addAll(list2);
+			context.put("list", list);
+			return "item/all";
+		}catch (Exception e) {
+			log.error("", e);
+		}
+		return "error";
+	}
 	
 
 }
