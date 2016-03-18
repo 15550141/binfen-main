@@ -263,7 +263,11 @@
             	<div class="m-order-item">
                     <span class="pull-right" id="method_money" money="$!cartInfo.freightMoney">￥$!cartInfo.freightMoney</span>运费
                 </div>
-                
+
+                <div class="m-order-item">
+                    <span class="pull-right" id="method_money" money="$!cartInfo.freightMoney"><input type="text" style="width: 200px;" id="remark" /></span>添加备注
+                </div>
+
                 <!--
                 <div class="m-order-item">
                     <span class="pull-right" id="use_jf_money" money="5">￥<font>5</font></span>积分抵扣

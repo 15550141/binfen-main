@@ -285,7 +285,7 @@ public class TaskServiceImpl implements TaskService{
 		try{
 			String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+WeixinUtils.getAccessToken();
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("url", "http://www.binfenguoyuan.cn:8081");
+			map.put("url", "http://seller.binfenguoyuan.cn/orderInfo/index");
 			map.put("topcolor", "#FF0000");
 			map.put("touser", "oETAJv1ESa1u5a329QMMvQj0Dpv8");//openid
 			

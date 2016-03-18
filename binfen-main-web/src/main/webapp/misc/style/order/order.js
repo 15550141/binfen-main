@@ -313,6 +313,7 @@ function orderVerify(){
     $('#order-submit').on('click',function(){
     	var addressId = $("#address_id").val();
     	var hopeArrivalTime = $("#hopeArrivalTime").val();
+        var remark = $("#remark").val();
     	if(!addressId){
             MessageBox.error('请先选择配送地址');
             return;
@@ -330,7 +331,8 @@ function orderVerify(){
     		"address_id" : addressId,
     		"hopeArrivalTime" : hopeArrivalTime,
     		"paymentType" : paymentType,
-    		"orderType" : orderType
+    		"orderType" : orderType,
+            "remark" : remark
         };
         
         $.post('/order/createOrder',data,function(resp){

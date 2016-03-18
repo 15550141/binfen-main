@@ -12,6 +12,8 @@ public interface UserInfoService {
 	 * @return
 	 */
 	public Result updatePwd(Integer userId, String oldPwd, String newPwd);
+
+	public void modify(UserInfo userInfo);
 	
 	/**
 	 * 获取登陆用户信息

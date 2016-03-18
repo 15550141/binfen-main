@@ -65,6 +65,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
+	public void modify(UserInfo userInfo) {
+		userInfoDao.modify(userInfo);
+	}
+
+	@Override
 	public UserInfo getUserInfoByUserId(Integer userId) {
 		try{
 			//获取用户信息

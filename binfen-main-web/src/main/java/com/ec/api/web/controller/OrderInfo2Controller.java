@@ -499,6 +499,8 @@ public class OrderInfo2Controller extends BaseController {
 		list.add(nextDate + " 12:00-14:00");
 		list.add(nextDate + " 14:00-17:00");
 		list.add(nextDate + " 17:00-20:00");
+		list.add("燕山大街1号店自提");
+		list.add("在水一方2号店自提");
 		return list;
 	}
 

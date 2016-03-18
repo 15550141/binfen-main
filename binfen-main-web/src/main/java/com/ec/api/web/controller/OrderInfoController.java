@@ -73,7 +73,7 @@ public class OrderInfoController extends BaseController {
 	}
 	
 	@RequestMapping(value="createOrder", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result createOrder(Integer paymentType, Integer orderType, String address_id, String hopeArrivalTime, HttpServletRequest request,HttpServletResponse response, ModelMap context){
+	public @ResponseBody Result createOrder(Integer paymentType, Integer orderType, String address_id, String hopeArrivalTime, String remark, HttpServletRequest request,HttpServletResponse response, ModelMap context){
 		Integer uid = CookieUtils.getUid(request);
 		Result result = new Result();
 		if(StringUtils.isBlank(address_id)){
@@ -104,7 +104,7 @@ public class OrderInfoController extends BaseController {
 		
 		orderInfo.setOrderType(orderType);
 		orderInfo.setPaymentType(paymentType);
-		
+		orderInfo.setRemark(remark);
 		return orderInfoService.createOrder(orderInfo, request, response);
 	}
 	
@@ -519,6 +519,8 @@ public class OrderInfoController extends BaseController {
 		list.add(nextDate + " 12:00-14:00");
 		list.add(nextDate + " 14:00-17:00");
 		list.add(nextDate + " 17:00-20:00");
+		list.add("燕山大街1号店自提");
+		list.add("在水一方2号店自提");
 		return list;
 	}
 
