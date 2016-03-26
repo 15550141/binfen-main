@@ -70,8 +70,12 @@
             	<div class="m-order-item">                  
                     <div class="m-order-address">
                 		$!{order.consigneeName}$!order.consigneeMobile
-                        <p>$!order.consigneeAddress</p>
-                    </div>    
+                        #if($!order.sendType == 1)
+                            <p>$!order.hopeArrivalTime</p>
+                        #else
+                            <p>$!order.consigneeAddress</p>
+                        #end
+                    </div>
                 </div>
                 <!-- 
 	                <div class="m-order-item">

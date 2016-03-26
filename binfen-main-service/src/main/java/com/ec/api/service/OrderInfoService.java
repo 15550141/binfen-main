@@ -58,84 +58,8 @@ public interface OrderInfoService {
 	/**
 	 * 查看该用户是否未生成过订单
 	 * @param uid
-	 * @param request
 	 * @return
 	 */
 	public Integer getEffectiveOrderCount(Integer uid);
 	
-	//----------------------------------------------------------------------------------
-	
-	/**
-	 * 下单接口
-	 * @param orderInfo
-	 * @return
-	 */
-	public Result submit(OrderInfo orderInfo, List<OrderDetail> orderDetailList);
-	
-	/**
-	 * 商家确认收款
-	 * @param orderId
-	 * @param lockReason
-	 * @return
-	 */
-	public Result confirmGetPrice(Integer orderId, Integer venderUserId);
-	/**
-	 * 商家确认尾款
-	 * @param orderId
-	 * @param lockReason
-	 * @return
-	 */
-	public Result confirmGetLastPrice(Integer orderId, Integer venderUserId);
-	/**
-	 * 商家发货确认
-	 * @param orderId
-	 * @param lockReason
-	 * @return
-	 */
-	public Result confirmSendOut(Integer orderId, Integer venderUserId);
-	/**
-	 * 用户收货确认
-	 * @param orderId
-	 * @param lockReason
-	 * @return
-	 */
-	public Result confirmGetGoods(Integer orderId, Integer userId);
-	/**
-	 * 商家订单完成确认
-	 * @param orderId
-	 * @param lockReason
-	 * @return
-	 */
-	public Result orderSuccess(Integer orderId);
-	
-	/**
-	 * 商家订单锁定
-	 * @param orderId
-	 * @param lockReason
-	 * @return
-	 */
-	public Result lockOrder(Integer orderId, String lockReason);
-	
-	/**
-	 * 商家订单解锁
-	 * @param orderId
-	 * @return
-	 */
-	public Result unlockOrder(Integer orderId);
-	
-	/**
-	 * 根据订单号和商家id获取订单详细信息
-	 * @param orderId
-	 * @return
-	 */
-	public Result getOrderInfoByOrderIdAndVenderUserId(Integer orderId, Integer venderUserId);
-	
-	public Result createTradeNo(Integer orderId, Integer userId);
-
-    /**
-	 * 根据订单号和用户id获取订单状态
-	 * @param orderId
-	 * @return
-	 */
-	public Result getOrderStatusByOrderIdAndUserId(Integer orderId, Integer userId);
 }

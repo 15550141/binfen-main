@@ -105,7 +105,7 @@ public class HttpUtils {
 					"application/x-www-form-urlencoded");
 
 			if(StringUtils.isNotBlank(data)){
-				httpurlconnection.getOutputStream().write(data.getBytes());
+				httpurlconnection.getOutputStream().write(data.getBytes("utf-8"));
 			}
 			httpurlconnection.getOutputStream().flush();
 			httpurlconnection.getOutputStream().close();

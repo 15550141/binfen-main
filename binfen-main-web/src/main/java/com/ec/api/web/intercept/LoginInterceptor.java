@@ -29,6 +29,7 @@ public class LoginInterceptor  implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
+		log.error("进入拦截器"+request.getRequestURL());
 		try{
 			StringBuffer url = request.getRequestURL();
 			if(url.toString().indexOf("oauth") > 0){

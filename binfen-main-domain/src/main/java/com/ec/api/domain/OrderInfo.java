@@ -130,6 +130,9 @@ public class OrderInfo implements Serializable{
     
     /** 订单属性标记位 */
     private Integer properties;
+
+    /** 发货类型，1，自提。2，自有物流 */
+    private Integer sendType;
     
     /**
      * 订单标记位 key是位置，value 1 是有标
@@ -399,6 +402,14 @@ public class OrderInfo implements Serializable{
 		if(orderStatus == 3 || orderStatus == 4 || orderStatus == 5 || orderStatus == 6 || orderStatus == 7 || orderStatus == 8){
 			return "等待发货";
 		}
+
+        if(orderStatus == 9){
+            return "实体店自提配货中";
+        }
+
+        if(orderStatus == 10){
+            return "请您上门自提";
+        }
 		
 		if(orderStatus == 13){
 			return "已发货，配送途中";
@@ -407,8 +418,8 @@ public class OrderInfo implements Serializable{
 			return "已发货，配送途中";
 		}
 		
-		if(orderStatus == 15 || orderStatus == 50){
-			return "完成";
+		if(orderStatus == 10 || orderStatus == 15 || orderStatus == 50){
+			return "订单完成";
 		}
 		if(orderStatus == 16){
 			return "锁定";
@@ -496,5 +507,12 @@ public class OrderInfo implements Serializable{
 	public void setFreightMoney(Integer freightMoney) {
 		this.freightMoney = freightMoney;
 	}
-	
+
+    public Integer getSendType() {
+        return sendType;
+    }
+
+    public void setSendType(Integer sendType) {
+        this.sendType = sendType;
+    }
 }

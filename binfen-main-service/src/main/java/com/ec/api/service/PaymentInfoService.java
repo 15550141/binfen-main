@@ -15,27 +15,4 @@ public interface PaymentInfoService {
 	
 	//微信支付结果回调
 	public String wxCallback(String callbackString);
-	
-	
-	
-	
-	
-	
-	//----------------------------------------------------------------------------------------------------
-	
-	
-	/**
-	 * 添加订单支付记录
-	 * @param paymentInfo
-	 * @return
-	 */
-	public Result addPaymentInfo(PaymentInfo paymentInfo);
-	
-	/**
-	 * 分页查询
-	 * @param paymentInfoQuery
-	 * @return
-	 */
-	public Result getPaymentInfos(PaymentInfoQuery paymentInfoQuery);
-	
 }

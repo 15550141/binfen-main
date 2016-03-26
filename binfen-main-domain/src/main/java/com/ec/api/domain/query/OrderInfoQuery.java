@@ -101,6 +101,16 @@ public class OrderInfoQuery extends BaseSearchForMysqlVo implements Serializable
 
     private Integer properties;
 
+    private Integer sendType;
+
+    public Integer getSendType() {
+        return sendType;
+    }
+
+    public void setSendType(Integer sendType) {
+        this.sendType = sendType;
+    }
+
     public Integer getProperties() {
         return properties;
     }

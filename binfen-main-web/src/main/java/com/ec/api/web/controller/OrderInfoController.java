@@ -73,7 +73,7 @@ public class OrderInfoController extends BaseController {
 	}
 	
 	@RequestMapping(value="createOrder", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result createOrder(Integer paymentType, Integer orderType, String address_id, String hopeArrivalTime, String remark, HttpServletRequest request,HttpServletResponse response, ModelMap context){
+	public @ResponseBody Result createOrder(Integer paymentType, Integer orderType, String address_id, String hopeArrivalTime, String remark, Integer sendType, HttpServletRequest request,HttpServletResponse response, ModelMap context){
 		Integer uid = CookieUtils.getUid(request);
 		Result result = new Result();
 		if(StringUtils.isBlank(address_id)){
@@ -101,7 +101,11 @@ public class OrderInfoController extends BaseController {
 			result.setResultMessage("请选择支付方式");
 			return result;
 		}
-		
+		if(sendType == null){
+			//默认是自有物流配送
+			sendType = 2;
+		}
+		orderInfo.setSendType(sendType);
 		orderInfo.setOrderType(orderType);
 		orderInfo.setPaymentType(paymentType);
 		orderInfo.setRemark(remark);
@@ -230,264 +234,7 @@ public class OrderInfoController extends BaseController {
 		result.setResult(map);
 		return result;
 	}
-	
-	/**
-	 * 下单
-	 * @param orderInfo
-	 * @param skus
-	 * @param request
-	 * @param response
-	 * @param context
-	 * @return
-	 */
-	@RequestMapping(value="submit", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result submit(OrderInfo orderInfo, String skus, HttpServletRequest request,HttpServletResponse response, ModelMap context){
-		Result result = new Result();
-		if(StringUtils.isBlank(skus)){
-			result.setResultCode("1001");
-			result.setResultMessage("skus不能为空");
-			return result;
-		}
 
-		String listString = "{\"list\":"+skus+"}";
-		SkuList skuList = null;
-		try{
-			skuList = JsonUtils.readValue(listString, SkuList.class);
-		}catch (Exception e) {
-			result.setResultCode("1001");
-			result.setResultMessage("skus格式不正确");
-			return result;
-		}
-		
-		List<OrderDetail> orderDetailList = skuList.getList();
-		for(int i=0;i<orderDetailList.size();i++){
-			OrderDetail od = orderDetailList.get(i);
-			if(od.getItemId() == null || od.getNum() == null || od.getSkuId() == null || od.getNum() <= 0){
-				result.setResultCode("1001");
-				result.setResultMessage("skus格式不正确");
-				return result;
-			}
-		}
-		
-		if(orderInfo.getOrderType() == null || (orderInfo.getOrderType() !=1 && orderInfo.getOrderType() != 2)){
-			result.setResultCode("1001");
-			result.setResultMessage("orderType不能为空");
-			return result;
-		}
-		
-		if(StringUtils.isBlank(orderInfo.getConsigneeName())){
-			result.setResultCode("1001");
-			result.setResultMessage("consigneeName不能为空");
-			return result;
-		}
-		if(orderInfo.getConsigneeProvince() == null){
-			result.setResultCode("1001");
-			result.setResultMessage("consigneeProvince不能为空");
-			return result;
-		}
-		if(orderInfo.getConsigneeCity() == null){
-			result.setResultCode("1001");
-			result.setResultMessage("consigneeCity不能为空");
-			return result;
-		}
-		if(orderInfo.getConsigneeCounty() == null){
-			result.setResultCode("1001");
-			result.setResultMessage("consigneeCounty不能为空");
-			return result;
-		}
-		if(StringUtils.isBlank(orderInfo.getConsigneeAddress())){
-			result.setResultCode("1001");
-			result.setResultMessage("consigneeAddress不能为空");
-			return result;
-		}
-		if(StringUtils.isBlank(orderInfo.getConsigneeMobile())){
-			result.setResultCode("1001");
-			result.setResultMessage("consigneeMobile不能为空");
-			return result;
-		}
-		if(orderInfo.getVenderUserId() == null){
-			result.setResultCode("1001");
-			result.setResultMessage("venderUserId不能为空");
-			return result;
-		}
-		
-		orderInfo.setUserId(getUserId(request));
-		orderInfo.setIp(getRemoteIp(request));
-		
-		return orderInfoService.submit(orderInfo, orderDetailList);
-	}
-	
-    /**
-	 * 根据订单号和用户id获取订单状态信息
-	 * @param request
-	 * @param response
-	 * @param context
-	 * @return
-	 */
-	@RequestMapping(value="getOrderStatusByOrderIdAndUserId", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result getOrderStatusByOrderIdAndUserId(Integer orderId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
-		return orderInfoService.getOrderStatusByOrderIdAndUserId(orderId, getUserId(request));
-	}
-	
-	/**
-	 * 根据订单号和商家id获取订单详细信息
-	 * @param request
-	 * @param response
-	 * @param context
-	 * @return
-	 */
-	@RequestMapping(value="getOrderInfoByOrderIdAndVenderUserId", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result getOrderInfoByOrderIdAndVenderUserId(Integer orderId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
-		return orderInfoService.getOrderInfoByOrderIdAndVenderUserId(orderId, getUserId(request));
-	}
-	
-	
-	/**
-	 * 商家确认收款
-	 * @param orderId
-	 * @param request
-	 * @param response
-	 * @param context
-	 * @return
-	 */
-	@RequestMapping(value="confirmGetPrice", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result confirmGetPrice(Integer orderId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
-		if(orderId == null){
-			Result result = new Result();
-			result.setResultCode("1001");
-			result.setResultMessage("orderId不能为空");
-			return result;
-		}
-		return orderInfoService.confirmGetPrice(orderId, getUserId(request));
-	}
-	
-	/**
-	 * 商家尾款确认收款
-	 * @param orderId
-	 * @param request
-	 * @param response
-	 * @param context
-	 * @return
-	 */
-	@RequestMapping(value="confirmGetLastPrice", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result confirmGetLastPrice(Integer orderId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
-		if(orderId == null){
-			Result result = new Result();
-			result.setResultCode("1001");
-			result.setResultMessage("orderId不能为空");
-			return result;
-		}
-		return orderInfoService.confirmGetLastPrice(orderId, getUserId(request));
-	}
-	
-	/**
-	 * 商家发货确认
-	 * @param orderId
-	 * @param request
-	 * @param response
-	 * @param context
-	 * @return
-	 */
-	@RequestMapping(value="confirmSendOut", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result confirmSendOut(Integer orderId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
-		if(orderId == null){
-			Result result = new Result();
-			result.setResultCode("1001");
-			result.setResultMessage("orderId不能为空");
-			return result;
-		}
-		return orderInfoService.confirmSendOut(orderId, getUserId(request));
-	}
-	
-	/**
-	 * 用户收货确认
-	 * @param orderId
-	 * @param request
-	 * @param response
-	 * @param context
-	 * @return
-	 */
-	@RequestMapping(value="confirmGetGoods", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result confirmGetGoods(Integer orderId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
-		if(orderId == null){
-			Result result = new Result();
-			result.setResultCode("1001");
-			result.setResultMessage("orderId不能为空");
-			return result;
-		}
-		return orderInfoService.confirmGetGoods(orderId, getUserId(request));
-	}
-	
-	/**
-	 * 商家订单完成确认
-	 * @param orderId
-	 * @param request
-	 * @param response
-	 * @param context
-	 * @return
-	 */
-	@RequestMapping(value="orderSuccess", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result orderSuccess(Integer orderId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
-		if(orderId == null){
-			Result result = new Result();
-			result.setResultCode("1001");
-			result.setResultMessage("orderId不能为空");
-			return result;
-		}
-		return orderInfoService.orderSuccess(orderId);
-	}
-	
-	/**
-	 * 商家订单锁定
-	 * @param orderId
-	 * @param lockReason
-	 * @param request
-	 * @param response
-	 * @param context
-	 * @return
-	 */
-	@RequestMapping(value="lockOrder", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result lockOrder(Integer orderId, String lockReason, HttpServletRequest request,HttpServletResponse response, ModelMap context){
-		if(orderId == null){
-			Result result = new Result();
-			result.setResultCode("1001");
-			result.setResultMessage("orderId不能为空");
-			return result;
-		}
-		return orderInfoService.lockOrder(orderId, lockReason);
-	}
-	
-	/**
-	 * 商家订单解锁
-	 * @param orderId
-	 * @param request
-	 * @param response
-	 * @param context
-	 * @return
-	 */
-	@RequestMapping(value="unlockOrder", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result unlockOrder(Integer orderId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
-		if(orderId == null){
-			Result result = new Result();
-			result.setResultCode("1001");
-			result.setResultMessage("orderId不能为空");
-			return result;
-		}
-		return orderInfoService.unlockOrder(orderId);
-	}
-	
-	
-	@RequestMapping(value="createTradeNo", method={RequestMethod.GET, RequestMethod.POST})
-	public @ResponseBody Result createTradeNo(Integer orderId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
-		if(orderId == null){
-			Result result = new Result();
-			result.setResultCode("1001");
-			result.setResultMessage("orderId不能为空");
-			return result;
-		}
-		return orderInfoService.createTradeNo(orderId, getUserId(request));
-	}
-	
 	private List<String> getHopeArrivalTimeList(){
 		//定义配送时间
 		//1、10-12	2、12-14		3、14-17		4、17-20
@@ -519,8 +266,6 @@ public class OrderInfoController extends BaseController {
 		list.add(nextDate + " 12:00-14:00");
 		list.add(nextDate + " 14:00-17:00");
 		list.add(nextDate + " 17:00-20:00");
-		list.add("燕山大街1号店自提");
-		list.add("在水一方2号店自提");
 		return list;
 	}
 

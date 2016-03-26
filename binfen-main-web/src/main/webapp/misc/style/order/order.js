@@ -132,6 +132,7 @@ function choseSendTime(data_obj,time_obj){
             
     		a=data_obj.attr('datavalue');
             $("#hopeArrivalTime").val(data_obj.attr('datakey'));
+            $("#sendType").val(data_obj.attr('sendType'));
             
             $('.input-group').removeClass('active');
             $('.modal-ordertime').modal('hide');
@@ -188,12 +189,18 @@ function chosePayment(paymentType,orderType,payment_name){
             if($("#order-submit").attr('disabled')=='disabled'){
                 $("#order-submit").removeAttr('disabled').removeClass('btn-default').addClass('btn-warning');
             }
+
 //            $("#pay_send_code").hide();
             
 //            updateJfMoney(resp['msg'].order_jf_limit,resp['msg'].jf_money);
-            $('#pmt_goods').text('¥'+resp.result.pmt_goods);
-            $('#pmt_goods').attr('money',resp.result.pmt_goods);
-            orderMoney();
+
+
+            //这一段比较有用，未来需要放开
+            //$('#pmt_goods').text('¥'+resp.result.pmt_goods);
+            //$('#pmt_goods').attr('money',resp.result.pmt_goods);
+            //orderMoney();
+            //这一段比较有用，未来需要放开
+
 //            if(resp['msg'].has_invoice=='0'){
 //                $("#fp_li").hide();
 //                if($('#myonoffswitch2').val()==1){
@@ -313,6 +320,7 @@ function orderVerify(){
     $('#order-submit').on('click',function(){
     	var addressId = $("#address_id").val();
     	var hopeArrivalTime = $("#hopeArrivalTime").val();
+        var sendType = $("#sendType").val();
         var remark = $("#remark").val();
     	if(!addressId){
             MessageBox.error('请先选择配送地址');
@@ -330,6 +338,7 @@ function orderVerify(){
         var data = {
     		"address_id" : addressId,
     		"hopeArrivalTime" : hopeArrivalTime,
+            "sendType" : sendType,
     		"paymentType" : paymentType,
     		"orderType" : orderType,
             "remark" : remark
