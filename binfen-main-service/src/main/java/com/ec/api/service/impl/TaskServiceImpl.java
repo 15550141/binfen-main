@@ -55,6 +55,9 @@ public class TaskServiceImpl implements TaskService{
 				if(task.getType() == 3){//确认发货
 					this.sendDeliverySuccessTemplateMessage(task.getContent());
 				}
+				if(task.getType() == 4){//可自提消息
+					this.sendDeliverySuccessTemplateMessage(task.getContent());
+				}
 				task.setStatus(1);//执行完成
 				taskDao.modify(task);
 			}
@@ -134,7 +137,7 @@ public class TaskServiceImpl implements TaskService{
 		return true;
 	}
 	
-	/**
+	d/**
 	 * 支付成功微信模板消息
 	 * @param taskContent
 	 * @return

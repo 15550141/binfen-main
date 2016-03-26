@@ -13,7 +13,7 @@ public class Task implements Serializable{
 	 */
 	private String content;
 	/**
-	 * 任务类型，1是下单成功微信推送消息，2是支付完成消息，
+	 * 任务类型，1是下单成功微信推送消息，2是支付完成消息，3是标记已发货消息，4是可自提消息，5是订单完成消息
 	 */
 	private Integer type;
 	/**
