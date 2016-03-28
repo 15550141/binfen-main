@@ -307,7 +307,6 @@ function orderMoney(){
     var sendType = $("#sendType").val();
     var goods_amount = parseInt($("#goods_amount").attr("money"));
     var method_money = parseInt($("#method_money").attr("money"));//运费
-alert(sendType);
     if(sendType == 1){
         method_money = 0;
         $("#method_money").text("￥0");
