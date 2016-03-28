@@ -270,10 +270,10 @@ public class CartServiceImpl implements CartService {
 			//满减逻辑结束
 			
 			//运费逻辑开始
-//			if(totleSalePrice.compareTo(new BigDecimal(39)) < 0){
+			if(true){//TODO 判断是否添加运费
 				freightMoney = new BigDecimal(4);//不满39，添加4元运费	//目前变成固定4元运费
 				totleSalePrice = totleSalePrice.add(freightMoney);//销售价加上运费
-//			}
+			}
 			//运费逻辑结束
 			
 			//直接清空对象，释放内存

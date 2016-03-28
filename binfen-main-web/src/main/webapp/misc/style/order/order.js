@@ -146,7 +146,7 @@ function choseSendTime(data_obj,time_obj){
 //            /*更新积分使用金额start*/
 //            updateJfMoney(resp['msg'].order_jf_limit,resp['msg'].jf_money);
 //            /*更新积分使用金额end*/
-//            orderMoney();
+            orderMoney();
             
 //        }else{
 //            MessageBox.error(resp.msg);
@@ -304,8 +304,17 @@ function useInvoice(fun,fp,checkbox_obj,checkbox_obj_val){
 
 /*商品金额计算*/
 function orderMoney(){
+    var sendType = $("#sendType").val();
     var goods_amount = parseInt($("#goods_amount").attr("money"));
     var method_money = parseInt($("#method_money").attr("money"));//运费
+alert(sendType);
+    if(sendType == 1){
+        method_money = 0;
+        $("#method_money").text("￥0");
+    }else{
+        $("#method_money").text("￥"+method_money);
+    }
+
     var pmt_goods = parseInt($("#pmt_goods").attr("money"));
 //    var use_jf_money = parseInt($("#use_jf_money").attr("money"));//积分抵扣
 //    var card_money = parseInt($("#card_money").attr("money"));

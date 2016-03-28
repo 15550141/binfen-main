@@ -96,7 +96,7 @@ public class OrderInfo implements Serializable{
     /** 订单完成时间 */
     private Date finishTime;
 
-    /** 订单状态（1 等待付款，2 等待付款确认 3 暂停 4 等待客服回电  5等待打印  6等待出库 7 等待打包  8等待发货  9 自提途中  10上门提货 11 自提退货  12确认自提 13 等待确认收货  14配送退货 15 收款确认 16 锁定  17等待退款  50完成 51取消订单） */
+    /** 订单状态（1 等待付款，2 等待付款确认 3 暂停 4 等待客服回电  5等待打印  6等待出库 7 等待打包  8等待发货  9 自提备货中  10上门提货 11 自提退货  12确认自提 13 等待确认收货  14配送退货 15 收款确认 16 锁定  17等待退款  50完成 51取消订单） */
     private Integer orderStatus;
 
     /** 下单IP */
@@ -389,7 +389,7 @@ public class OrderInfo implements Serializable{
 		this.yn = yn;
 	}
 	
-	/** 订单状态（1 等待付款，2 等待付款确认 3 暂停 4 店长最终审核 5等待打印  6等待出库 7 等待打包  8等待发货  9 自提途中  10上门提货 11 自提退货  12确认自提 13 等待确认收货  14配送退货 15 收款确认 16 锁定  17等待退款  50完成 51取消订单） */
+	/** 订单状态（1 等待付款，2 等待付款确认 3 暂停 4 店长最终审核 5等待打印  6等待出库 7 等待打包  8等待发货  9 自提备货中  10上门提货 11 自提退货  12确认自提 13 等待确认收货  14配送退货 15 收款确认 16 锁定  17等待退款  50完成 51取消订单） */
 	public String getBuyerOrderStatusName(){
 		if(this.orderStatus == 0){
 			return "新订单";
@@ -404,7 +404,7 @@ public class OrderInfo implements Serializable{
 		}
 
         if(orderStatus == 9){
-            return "实体店自提配货中";
+            return "自提配货中";
         }
 
         if(orderStatus == 10){

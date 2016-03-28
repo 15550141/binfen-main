@@ -85,10 +85,16 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			if(FlagBitUtil.checkSign(userInfo.getProperties(), 1)){
 				order.setProperties(FlagBitUtil.sign(order.getProperties(), 1));
 			}
-			//设置订单运费
-			order.setFreightMoney(cartInfo.getFreightMoney().multiply(new BigDecimal(100)).intValue());
-			//设置订单总金额
-			order.setOrderMoney((cartInfo.getTotleSalePrice().multiply(new BigDecimal(100))).intValue());
+			//如果是自提订单
+			if(order.getSendType() == 1) {
+				//设置订单总金额
+				order.setOrderMoney(((cartInfo.getTotleSalePrice().subtract(cartInfo.getFreightMoney())).multiply(new BigDecimal(100))).intValue());
+			}else{
+				order.setFreightMoney(cartInfo.getFreightMoney().multiply(new BigDecimal(100)).intValue());
+				//设置订单总金额
+				order.setOrderMoney((cartInfo.getTotleSalePrice().multiply(new BigDecimal(100))).intValue());
+			}
+
 			//设置订单总优惠金额
 			order.setDiscountMoney((cartInfo.getTotlePreferentialPrice().multiply(new BigDecimal(100))).intValue());
 			//设置订单优惠明细

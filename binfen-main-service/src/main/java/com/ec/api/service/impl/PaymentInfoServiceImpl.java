@@ -176,7 +176,7 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
 					
 					//修改订单状态为支付完成
 					if(orderInfo.getSendType()==1){
-						orderInfo.setOrderStatus(9);//自提途中，正在备货
+						orderInfo.setOrderStatus(9);//自提备货中
 					}else{
 						orderInfo.setOrderStatus(8);//修改订单状态为待发货
 					}

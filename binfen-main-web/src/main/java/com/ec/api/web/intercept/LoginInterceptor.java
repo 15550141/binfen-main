@@ -7,8 +7,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ec.api.domain.UserInfo;
+import com.ec.api.service.UserInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,11 +28,13 @@ public class LoginInterceptor  implements HandlerInterceptor {
 	
 	private final static String secret = "d18ed7feb9db4621b95da86943f7717f";
 	private final static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	@Autowired
+	private UserInfoService userInfoService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		log.error("进入拦截器"+request.getRequestURL());
 		try{
 			StringBuffer url = request.getRequestURL();
 			if(url.toString().indexOf("oauth") > 0){
@@ -45,8 +50,14 @@ public class LoginInterceptor  implements HandlerInterceptor {
 			}
 			
 			Integer uid = CookieUtils.getUid(request);
-			
+
 			if(uid == null || uid == 0){
+				CookieUtils.clearCookie("uid", response);
+				response.sendRedirect("http://www.binfenguoyuan.cn/oauth/login?rurl="+url.toString());
+				return false;
+			}
+			UserInfo userInfo = userInfoService.getUserInfoByUserId(uid);
+			if(userInfo == null){
 				CookieUtils.clearCookie("uid", response);
 				response.sendRedirect("http://www.binfenguoyuan.cn/oauth/login?rurl="+url.toString());
 				return false;
