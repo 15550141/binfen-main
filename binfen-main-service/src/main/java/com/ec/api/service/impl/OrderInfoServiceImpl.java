@@ -312,6 +312,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			//订单改为已取消
 			orderInfo.setOrderStatus(51);
 			orderInfoDao.modify(orderInfo);
+
+			List<OrderDetail> list = orderDetailDao.selectByOrderId(orderInfo.getOrderId());
+			for(OrderDetail detail : list){
+				skuDao.rollbackSkuStock(detail.getSkuId(), detail.getNum());
+			}
+
 			result.setResult(true);
 			EcUtils.setSuccessResult(result);
 		}catch (Exception e) {

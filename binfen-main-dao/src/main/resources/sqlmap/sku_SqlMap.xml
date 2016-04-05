@@ -152,5 +152,11 @@
     order by SKU_ID
   	limit #start#,#pageSize#
   </select>
- 
+
+
+  <update id="rollbackSkuStock" parameterClass="com.ec.api.domain.Sku" >
+    update sku set stock=stock+#stock:INTEGER#,modified=now()
+    where SKU_ID = #skuId:INTEGER#
+  </update>
+
 </sqlMap>

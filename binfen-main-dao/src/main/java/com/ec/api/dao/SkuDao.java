@@ -49,5 +49,6 @@ public interface SkuDao {
 	 * @return
 	 */
 	public List<Sku> selectByConditionForPage(SkuQuery skuQuery);
-	
+
+	public void rollbackSkuStock(Integer skuId, Integer stock);
 }

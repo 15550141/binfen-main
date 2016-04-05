@@ -44,4 +44,12 @@ public class SkuDaoImpl extends SqlMapClientTemplate implements SkuDao {
 	public Integer delStock(Sku sku) {
 		return delete("Sku.delStock", sku);
 	}
+
+	@Override
+	public void rollbackSkuStock(Integer skuId, Integer stock) {
+		Sku sku = new Sku();
+		sku.setSkuId(skuId);
+		sku.setStock(stock);
+		update("Sku.rollbackSkuStock", sku);
+	}
 }
