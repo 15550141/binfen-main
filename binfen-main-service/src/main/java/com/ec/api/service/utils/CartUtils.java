@@ -45,23 +45,27 @@ public class CartUtils {
 			String [] cartListStringArr = CartUtils.getCartsArrByCookie(request);
 			Map<Integer, CartSku> cartMap = new HashMap<Integer, CartSku>();
 			for(int i = 0 ; i < cartListStringArr.length ; i++){
-				String [] cartInfoStringArr = cartListStringArr[i].split("-");
-				Integer itemId = Integer.parseInt(cartInfoStringArr[0]);
-				Integer skuId = Integer.parseInt(cartInfoStringArr[1]);
-				String salesPropertyName = cartInfoStringArr[2];
-				Integer num = Integer.parseInt(cartInfoStringArr[3]);
-				
-				//构建购物车数据
-				CartSku cart = new CartSku();
-				cart.setCreated(new Date());
-				cart.setCreated(new Date());
-				//商品属性中文
-				cart.setSalesPropertyName(salesPropertyName);
-				cart.setItemId(itemId);
-				cart.setNum(num);
-				cart.setSkuId(skuId);
-				
-				cartMap.put(skuId, cart);
+				try{
+					String [] cartInfoStringArr = cartListStringArr[i].split("-");
+					Integer itemId = Integer.parseInt(cartInfoStringArr[0]);
+					Integer skuId = Integer.parseInt(cartInfoStringArr[1]);
+					String salesPropertyName = cartInfoStringArr[2];
+					Integer num = Integer.parseInt(cartInfoStringArr[3]);
+
+					//构建购物车数据
+					CartSku cart = new CartSku();
+					cart.setCreated(new Date());
+					cart.setCreated(new Date());
+					//商品属性中文
+					cart.setSalesPropertyName(salesPropertyName);
+					cart.setItemId(itemId);
+					cart.setNum(num);
+					cart.setSkuId(skuId);
+
+					cartMap.put(skuId, cart);
+				}catch (Exception e){
+					log.error("获取购物车数据异常", e);
+				}
 			}
 			return cartMap;
 		}catch (Exception e) {
@@ -92,23 +96,27 @@ public class CartUtils {
 			
 			List<CartSku> cartList = new ArrayList<CartSku>();
 			for(int i = 0 ; i < cartListStringArr.length ; i++){
-				String [] cartInfoStringArr = cartListStringArr[i].split("-");
-				Integer itemId = Integer.parseInt(cartInfoStringArr[0]);
-				Integer skuId = Integer.parseInt(cartInfoStringArr[1]);
-				String salesPropertyName = cartInfoStringArr[2];
-				Integer num = Integer.parseInt(cartInfoStringArr[3]);
-				
-				
-				//构建购物车数据
-				CartSku cart = new CartSku();
-				cart.setCreated(new Date());
-				//商品属性中文
-				cart.setSalesPropertyName(salesPropertyName);
-				cart.setItemId(itemId);
-				cart.setNum(num);
-				cart.setSkuId(skuId);
-				
-				cartList.add(cart);
+				try{
+					String [] cartInfoStringArr = cartListStringArr[i].split("-");
+					Integer itemId = Integer.parseInt(cartInfoStringArr[0]);
+					Integer skuId = Integer.parseInt(cartInfoStringArr[1]);
+					String salesPropertyName = cartInfoStringArr[2];
+					Integer num = Integer.parseInt(cartInfoStringArr[3]);
+
+
+					//构建购物车数据
+					CartSku cart = new CartSku();
+					cart.setCreated(new Date());
+					//商品属性中文
+					cart.setSalesPropertyName(salesPropertyName);
+					cart.setItemId(itemId);
+					cart.setNum(num);
+					cart.setSkuId(skuId);
+
+					cartList.add(cart);
+				}catch (Exception e){
+					log.error("购物车转换为cart对象时报错", e);
+				}
 			}
 			return cartList;
 		}catch (Exception e) {
@@ -148,7 +156,13 @@ public class CartUtils {
 				cookieValue.append("-");
 				cookieValue.append(cart.getSkuId());
 				cookieValue.append("-");
-				cookieValue.append(cart.getSalesPropertyName());
+				if(cart.getSalesPropertyName().indexOf("-") > 0){
+					String property = cart.getSalesPropertyName().replaceAll("-","至");
+					cookieValue.append(property);
+				}else{
+					cookieValue.append(cart.getSalesPropertyName());
+				}
+
 				cookieValue.append("-");
 				cookieValue.append(cart.getNum());
 				
