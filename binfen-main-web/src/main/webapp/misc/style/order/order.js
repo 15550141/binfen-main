@@ -132,7 +132,6 @@ function choseSendTime(data_obj,time_obj){
             
     		a=data_obj.attr('datavalue');
             $("#hopeArrivalTime").val(data_obj.attr('datakey'));
-            $("#sendType").val(data_obj.attr('sendType'));
             
             $('.input-group').removeClass('active');
             $('.modal-ordertime').modal('hide');
@@ -146,7 +145,7 @@ function choseSendTime(data_obj,time_obj){
 //            /*更新积分使用金额start*/
 //            updateJfMoney(resp['msg'].order_jf_limit,resp['msg'].jf_money);
 //            /*更新积分使用金额end*/
-            orderMoney();
+//            orderMoney();
             
 //        }else{
 //            MessageBox.error(resp.msg);
@@ -189,18 +188,12 @@ function chosePayment(paymentType,orderType,payment_name){
             if($("#order-submit").attr('disabled')=='disabled'){
                 $("#order-submit").removeAttr('disabled').removeClass('btn-default').addClass('btn-warning');
             }
-
 //            $("#pay_send_code").hide();
             
 //            updateJfMoney(resp['msg'].order_jf_limit,resp['msg'].jf_money);
-
-
-            //这一段比较有用，未来需要放开
-            //$('#pmt_goods').text('¥'+resp.result.pmt_goods);
-            //$('#pmt_goods').attr('money',resp.result.pmt_goods);
-            //orderMoney();
-            //这一段比较有用，未来需要放开
-
+            $('#pmt_goods').text('¥'+resp.result.pmt_goods);
+            $('#pmt_goods').attr('money',resp.result.pmt_goods);
+            orderMoney();
 //            if(resp['msg'].has_invoice=='0'){
 //                $("#fp_li").hide();
 //                if($('#myonoffswitch2').val()==1){
@@ -304,16 +297,8 @@ function useInvoice(fun,fp,checkbox_obj,checkbox_obj_val){
 
 /*商品金额计算*/
 function orderMoney(){
-    var sendType = $("#sendType").val();
     var goods_amount = parseInt($("#goods_amount").attr("money"));
     var method_money = parseInt($("#method_money").attr("money"));//运费
-    if(sendType == 1){
-        method_money = 0;
-        $("#method_money").text("￥0");
-    }else{
-        $("#method_money").text("￥"+method_money);
-    }
-
     var pmt_goods = parseInt($("#pmt_goods").attr("money"));
 //    var use_jf_money = parseInt($("#use_jf_money").attr("money"));//积分抵扣
 //    var card_money = parseInt($("#card_money").attr("money"));
@@ -328,8 +313,6 @@ function orderVerify(){
     $('#order-submit').on('click',function(){
     	var addressId = $("#address_id").val();
     	var hopeArrivalTime = $("#hopeArrivalTime").val();
-        var sendType = $("#sendType").val();
-        var remark = $("#remark").val();
     	if(!addressId){
             MessageBox.error('请先选择配送地址');
             return;
@@ -346,10 +329,8 @@ function orderVerify(){
         var data = {
     		"address_id" : addressId,
     		"hopeArrivalTime" : hopeArrivalTime,
-            "sendType" : sendType,
     		"paymentType" : paymentType,
-    		"orderType" : orderType,
-            "remark" : remark
+    		"orderType" : orderType
         };
         
         $.post('/order/createOrder',data,function(resp){

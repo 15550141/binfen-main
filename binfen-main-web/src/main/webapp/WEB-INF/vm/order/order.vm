@@ -84,7 +84,6 @@
 				</div>
                 -->
 				<input type="hidden" id="hopeArrivalTime" />
-                <input type="hidden" id="sendType" />
                 <div class="m-order-item">
 					<a href="javascript:;" id="ordertime"><span class="pull-right">请选择</span>配送时间</a>
 				</div>
@@ -103,7 +102,7 @@
                                 -->
                         		<tbody>
                         			#foreach($time in $timeList)
-	                                    <tr class="s_tr" datakey="$time" datavalue="$time" sendType="2">
+	                                    <tr class="s_tr" datakey="$time" datavalue="$time">
 	                                        <td>$time</td>
 											<td class='s_td' timekey="$time" timevalue="$time">
 	                                            <div class="input-group text-center">
@@ -113,24 +112,6 @@
 	                                        </td>
 										</tr>
 									#end
-                                <tr class="s_tr" datakey="燕山大街1号店自提" datavalue="燕山大街1号店自提" sendType="1">
-                                    <td>燕山大街1号店自提</td>
-                                    <td class='s_td' timekey="燕山大街1号店自提" timevalue="燕山大街1号店自提">
-                                        <div class="input-group text-center">
-                                            <input type="radio" id="ordertime20" name="ordertime" />
-                                            <label for="ordertime20" class="glyphicon fdayicon fdayicon-delivery"></label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="s_tr" datakey="在水一方2号店自提" datavalue="在水一方2号店自提" sendType="1">
-                                    <td>在水一方2号店自提</td>
-                                    <td class='s_td' timekey="在水一方2号店自提" timevalue="在水一方2号店自提">
-                                        <div class="input-group text-center">
-                                            <input type="radio" id="ordertime21" name="ordertime" />
-                                            <label for="ordertime21" class="glyphicon fdayicon fdayicon-delivery"></label>
-                                        </div>
-                                    </td>
-                                </tr>
 								</tbody>
                         	</table>          
                     	</div>
@@ -282,11 +263,7 @@
             	<div class="m-order-item">
                     <span class="pull-right" id="method_money" money="$!cartInfo.freightMoney">￥$!cartInfo.freightMoney</span>运费
                 </div>
-
-                <div class="m-order-item">
-                    <span class="pull-right" ><input type="text" style="width: 200px;" id="remark" /></span>添加备注
-                </div>
-
+                
                 <!--
                 <div class="m-order-item">
                     <span class="pull-right" id="use_jf_money" money="5">￥<font>5</font></span>积分抵扣
