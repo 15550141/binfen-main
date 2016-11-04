@@ -6,6 +6,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ec.api.dao.SkuDao;
+import com.ec.api.domain.Sku;
+import com.ec.api.domain.query.SkuQuery;
+import com.ec.api.service.SkuService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +34,8 @@ public class ItemController extends BaseController {
 
 	@Autowired
 	private ItemService itemService;
+	@Autowired
+	private SkuDao skuDao;
 	
 	@RequestMapping(value="getItemsByVenderUserId", method={RequestMethod.GET, RequestMethod.POST})
 	public @ResponseBody Result getItemsByVenderUserId(HttpServletRequest request,HttpServletResponse response, ModelMap context){
@@ -87,6 +93,28 @@ public class ItemController extends BaseController {
 			List<Item> list = itemService.getAll();
 			context.put("list", list);
 			return "item/all";
+		}catch (Exception e) {
+			log.error("", e);
+		}
+		return "error";
+	}
+
+	@RequestMapping(value="list", method={RequestMethod.GET, RequestMethod.POST})
+	public String list(String categoryId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
+		try{
+			ItemQuery query = new ItemQuery();
+			query.setCategoryId3(Integer.parseInt(categoryId));
+			query.setItemStatus(1);//上架
+			List<Item> list = itemService.getAll(query);
+			SkuQuery skuQuery = new SkuQuery();
+			skuQuery.setYn(1);
+			for(Item item : list){
+				skuQuery.setItemId(item.getItemId());
+				List<Sku> skus = skuDao.selectByCondition(skuQuery);
+				item.setSkuList(skus);
+			}
+			context.put("list", list);
+			return "item/list";
 		}catch (Exception e) {
 			log.error("", e);
 		}

@@ -17,17 +17,20 @@
     <div id="container">
         <ul class="list-unstyled">
             #foreach($item in $list)
-                <li>
-                    <a href="/item/detail?id=$!{item.itemId}" title="$!item.itemName">
-                        <img class="lazy pull-left" src="$!item.itemImage">
-                        <div class="m-prolist-info" pid="$!{item.itemId}" ppid="$!{item.itemId}" salesPropertyName="" type="normal" pno="2150609103">
-                            <h3>$!item.itemName</h3>
-                            <h4></h4>
-                            <h5></h5>
-                            <span class="m-prolist-car"><i class="glyphicon fdayicon fdayicon-procart"></i></span>
-                        </div>
-                    </a>
-                </li>
+                #foreach($sku in $item.skuList)
+                    <li>
+                        <a href="/item/detail?id=$!{item.itemId}&skuId=$!sku.skuId" title="$!item.itemName">
+                            <img class="lazy pull-left" src="$!item.itemImage">
+                            <div class="m-prolist-info" pid="$!{sku.skuId}" ppid="$!{sku.skuId}" salesPropertyName="" type="normal" pno="2150609103">
+                                <h3>$!item.itemName</h3>
+                                <h4>$!sku.salesPropertyName</h4>
+                                <h5>$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.salePrice)</h5>
+                                <span class="m-prolist-car"><i class="glyphicon fdayicon fdayicon-procart"></i></span>
+                            </div>
+                        </a>
+                    </li>
+                #end
+
 			#end
         </ul>
     </div>

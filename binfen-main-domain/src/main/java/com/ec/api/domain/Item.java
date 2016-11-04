@@ -1,6 +1,7 @@
 package com.ec.api.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -163,6 +164,17 @@ public class Item implements Serializable{
     private List<Sku> skuList;
 
     private ItemDescription itemDescription;
+
+    //库存数量
+    private BigDecimal stockNum;
+
+    public BigDecimal getStockNum() {
+        return stockNum;
+    }
+
+    public void setStockNum(BigDecimal stockNum) {
+        this.stockNum = stockNum;
+    }
 
     public ItemDescription getItemDescription() {
         return itemDescription;

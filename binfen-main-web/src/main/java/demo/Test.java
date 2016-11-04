@@ -133,6 +133,7 @@ public class Test {
 //        System.out.println(id.substring(id.length()-2,id.length()));
 //        System.out.println(id.substring(id.length()-4,id.length()-2));
 
+        System.out.println(DESUtil.encrypt("10000", "19871104"));
     }
 	
 	public static void listNodes(Element node){  
