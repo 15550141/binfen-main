@@ -47,4 +47,6 @@ public interface ItemDao{
 	 * @return
 	 */
 	public List<Item> selectByConditionForPage(ItemQuery itemQuery);
+
+	public Integer delStock(Item item);
 }

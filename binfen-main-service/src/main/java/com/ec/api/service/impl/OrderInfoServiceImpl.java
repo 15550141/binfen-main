@@ -103,10 +103,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 //			}
 			
 			//如果是货到付款订单
-			if(order.getOrderType() != 2){
+			if(order.getOrderType() == 1){
 				order.setOrderStatus(1);
 			}else{
-				//订单状态，默认支付方式是货到付款，订单状态为待发货
+				//货到付款和月结订单，订单状态直接变为待发货
 				order.setOrderStatus(8);
 			}
 			//商品信息
@@ -139,25 +139,27 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			new TransactionTemplate(transactionManager).execute(new TransactionCallbackWithoutResult() {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus arg0) {
-					Integer orderId = orderInfoDao.insert(order);
-					order.setOrderId(orderId);
-					
-					for(int i=0;i<orderDetailList.size();i++){
-						OrderDetail orderDetail = orderDetailList.get(i);
-						orderDetail.setOrderId(orderId);
-						orderDetailDao.insert(orderDetail);
+				Integer orderId = orderInfoDao.insert(order);
+				order.setOrderId(orderId);
 
-						//扣库存
-						Sku sku = new Sku();
-						sku.setSkuId(orderDetail.getSkuId());
-						sku.setStock(orderDetail.getNum());
-						Integer delState = skuDao.delStock(sku);
-						if(delState == null || delState == 0){
-							//TODO 抛个异常，回滚事务
-							throw new RuntimeException("商品["+orderDetail.getItemName()+"]库存不足");
-						}
+				for(int i=0;i<orderDetailList.size();i++){
+					OrderDetail orderDetail = orderDetailList.get(i);
+					orderDetail.setOrderId(orderId);
+					orderDetailDao.insert(orderDetail);
 
-						//TODO 扣除促销库存
+					//扣库存
+					Item item = new Item();
+					item.setItemId(orderDetail.getItemId());
+					item.setStockNum(new BigDecimal(orderDetail.getNum()));
+
+					Integer delState = itemDao.delStock(item);
+
+					if(delState == null || delState == 0){
+						//TODO 抛个异常，回滚事务
+						throw new RuntimeException("商品["+orderDetail.getItemName()+"]库存不足");
+					}
+
+					//TODO 扣除促销库存
 //						for(int j=0;j<delPromotionInfoStock.size();j++){
 //							int delResult = promotionInfoDao.updatePromotionInfoStock(delPromotionInfoStock.get(j));
 //							if(delResult <= 0){
@@ -165,19 +167,19 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 //							}
 //						}
 
-					}
-					
-					//添加任务表
-					Task task = new Task();
-					Map<String, Integer> map = new HashMap<String, Integer>();
-					map.put("orderId", order.getOrderId());
-					map.put("userId", order.getUserId());
-					task.setContent(JsonUtils.writeValue(map));//内容
-					task.setStatus(0);//初始状态
-					task.setType(1);//下单成功任务
-					task.setYn(1);//有效
-					taskDao.insert(task);
-					EcUtils.setSuccessResult(result);
+				}
+
+				//添加任务表
+				Task task = new Task();
+				Map<String, Integer> map = new HashMap<String, Integer>();
+				map.put("orderId", order.getOrderId());
+				map.put("userId", order.getUserId());
+				task.setContent(JsonUtils.writeValue(map));//内容
+				task.setStatus(0);//初始状态
+				task.setType(1);//下单成功任务
+				task.setYn(1);//有效
+				taskDao.insert(task);
+				EcUtils.setSuccessResult(result);
 				}
 			});
 			CartUtils.clearCookies(response);//清除

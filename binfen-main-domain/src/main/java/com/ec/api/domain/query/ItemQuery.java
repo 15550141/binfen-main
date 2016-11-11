@@ -1,6 +1,7 @@
 package com.ec.api.domain.query;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class ItemQuery extends BaseSearchForMysqlVo implements Serializable{
@@ -134,6 +135,16 @@ public class ItemQuery extends BaseSearchForMysqlVo implements Serializable{
      * 上市结束时间
      */
     private Date marketEndTime;
+
+    private BigDecimal stockNum;
+
+    public BigDecimal getStockNum() {
+        return stockNum;
+    }
+
+    public void setStockNum(BigDecimal stockNum) {
+        this.stockNum = stockNum;
+    }
 
     public Integer getItemId() {
         return itemId;

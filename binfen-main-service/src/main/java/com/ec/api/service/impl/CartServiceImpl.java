@@ -203,12 +203,13 @@ public class CartServiceImpl implements CartService {
 				
 				if(item == null){
 					item = itemService.getItemAndSkusByItemId(cart.getItemId());
-					itemList.add(item);
 				}
 				
 				if(item == null){
-					throw new RuntimeException(cart.getItemId() + "商品不存在");
+					continue;
 				}
+
+				itemList.add(item);
 
 				List<Sku> skuList = item.getSkuList();
 				

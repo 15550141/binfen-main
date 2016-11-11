@@ -132,7 +132,7 @@ $(function($){
 
             event.stopPropagation();
             $num=$(this).next('input');
-            _val=parseInt($num.val()); 
+            _val=parseInt($num.val());
 
             if (_val==1) return;
             _val--;
@@ -156,7 +156,7 @@ $(function($){
                 clearTimeout(timeout);
             };
             timeout = setTimeout(function(){Cart.update(data);},200);
-        
+
         });
     }
 
@@ -342,6 +342,28 @@ $(function($){
     };
 });
 
+function cartNumChange(skuId){
+    var timeout;
+    var $num=$("#buyNum_"+skuId).val();
+    if($num==null || $num <=0 ){
+        $num = 1;
+    }
+    var parent_li = $("#c_normal_"+skuId);
+    var data = {
+        'itemId':parent_li.attr('itemId'),
+        'skuId':parent_li.attr('skuId'),
+        'type':parent_li.attr('type'),
+        'salesPropertyName':parent_li.attr('salesPropertyName'),
+        'num':$num  ,
+        'ik':parent_li.attr('id')
+    };
+
+    if (timeout) {
+        clearTimeout(timeout);
+    };
+    timeout = setTimeout(function(){Cart.update(data);},200);
+
+}
 /*统计*/
 function action_statistics(input_params){
     var args = {};

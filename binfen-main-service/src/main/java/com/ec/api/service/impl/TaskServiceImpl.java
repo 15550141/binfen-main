@@ -360,12 +360,40 @@ public class TaskServiceImpl implements TaskService{
 				dataMap.put("keyword3", keyword3);
 				dataMap.put("keyword4", keyword4);
 				dataMap.put("remark", remark);
-			}else{//货到付款
+			}else if(orderInfo.getOrderType() == 2){//货到付款
+				map.put("template_id", "T7U3nHxo1Y5gzYovKic2EmYAQbvjrwAIL3fcIXuEZ40");
+
+
+				Map<String, String> first = new HashMap<String, String>();
+				first.put("value", "您的订单已提交成功，开始为您打包商品，您在收货时还需要支付"+orderInfo.getBigDecimalOrderMoney()+"元。");
+				first.put("color", "#173177");
+				Map<String, String> orderID = new HashMap<String, String>();
+				orderID.put("value", ""+orderInfo.getOrderId());
+				orderID.put("color", "#173177");
+				Map<String, String> orderMoneySum = new HashMap<String, String>();
+				orderMoneySum.put("value", orderInfo.getBigDecimalOrderMoney() + "元");
+				orderMoneySum.put("color", "#173177");
+				Map<String, String> backupFieldName = new HashMap<String, String>();
+				backupFieldName.put("value", "预计送达：");
+				Map<String, String> backupFieldData = new HashMap<String, String>();
+				backupFieldData.put("value", ""+orderInfo.getHopeArrivalTime());
+				backupFieldData.put("color", "#173177");
+				Map<String, String> remark = new HashMap<String, String>();
+				remark.put("value", "如有问题请致电0335-3188123或直接在微信留言");
+				remark.put("color", "#173177");
+
+				dataMap.put("first", first);
+				dataMap.put("orderID", orderID);
+				dataMap.put("orderMoneySum", orderMoneySum);
+				dataMap.put("backupFieldName", backupFieldName);
+				dataMap.put("backupFieldData", backupFieldData);
+				dataMap.put("remark", remark);
+			}else if(orderInfo.getOrderType() == 3){//月结订单
 				map.put("template_id", "T7U3nHxo1Y5gzYovKic2EmYAQbvjrwAIL3fcIXuEZ40");
 				
 				
 				Map<String, String> first = new HashMap<String, String>();
-				first.put("value", "您的订单已提交成功，开始为您打包商品，您在收货时还需要支付"+orderInfo.getBigDecimalOrderMoney()+"元。");
+				first.put("value", "您的订单已提交成功，开始为您打包商品");
 				first.put("color", "#173177");
 				Map<String, String> orderID = new HashMap<String, String>();
 				orderID.put("value", ""+orderInfo.getOrderId());
@@ -399,11 +427,11 @@ public class TaskServiceImpl implements TaskService{
 			log.error("", e);
 		}
 		
-		this.sendTemplateMessageToSuliqiang(orderInfo);
+		this.sendTemplateMessageToLeader(orderInfo);
 		
 		return true;
 	}
-	
+
 	private void sendTemplateMessageToSuliqiang(OrderInfo orderInfo){
 		try{
 			String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+WeixinUtils.getAccessToken();
@@ -411,15 +439,15 @@ public class TaskServiceImpl implements TaskService{
 			map.put("url", "http://seller.binfenguoyuan.cn/orderInfo/index");
 			map.put("topcolor", "#FF0000");
 			map.put("touser", "oETAJv1ESa1u5a329QMMvQj0Dpv8");//openid
-			
+
 			Map<String, Map<String, String>> dataMap = new HashMap<String, Map<String, String>>();
-			
+
 			map.put("template_id", "T7U3nHxo1Y5gzYovKic2EmYAQbvjrwAIL3fcIXuEZ40");
-			
+
 			Map<String, String> first = new HashMap<String, String>();
-			first.put("value", "强哥，有新订单！");
+			first.put("value", "有新订单！");
 			first.put("color", "#173177");
-			
+
 			Map<String, String> orderID = new HashMap<String, String>();
 			orderID.put("value", orderInfo.getOrderId() + "");
 			orderID.put("color", "#173177");
@@ -434,16 +462,16 @@ public class TaskServiceImpl implements TaskService{
 			Map<String, String> remark = new HashMap<String, String>();
 			remark.put("value", "查看详情请点击！");
 			remark.put("color", "#173177");
-			
+
 			dataMap.put("first", first);
 			dataMap.put("orderID", orderID);
 			dataMap.put("orderMoneySum", orderMoneySum);
 			dataMap.put("backupFieldName", backupFieldName);
 			dataMap.put("backupFieldData", backupFieldData);
 			dataMap.put("remark", remark);
-			
+
 			map.put("data", dataMap);
-			
+
 			String data = JsonUtils.writeValue(map);
 			String result = HttpUtils.httpPostData(url, data, "utf-8");
 			log.error("给小强发送模板消息，参数是："+data+"		返回内容是："+result);
@@ -451,6 +479,62 @@ public class TaskServiceImpl implements TaskService{
 			log.error("", e);
 			// TODO: handle exception
 		}
+	}
+
+	private void sendTemplateMessageToLeader(OrderInfo orderInfo){
+		//oETAJvyY2LGIbOydSE7SK4TFY2j0 杨慧斌
+		//oETAJv1apP2ffEeEkFB0jIdk-wSY 庞勇
+		//oETAJv0DR67KPB5u8IHUExp9Cm-8 于建明
+		String [] openIds = new String[]{"oETAJvyY2LGIbOydSE7SK4TFY2j0","oETAJv1apP2ffEeEkFB0jIdk-wSY", "oETAJv0DR67KPB5u8IHUExp9Cm-8"};
+		for(int i=0 ; i<openIds.length ; i++){
+			try{
+				String url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+WeixinUtils.getAccessToken();
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("url", "http://seller.binfenguoyuan.cn/orderInfo/index");
+				map.put("topcolor", "#FF0000");
+				map.put("touser", openIds[i]);//openid
+
+				Map<String, Map<String, String>> dataMap = new HashMap<String, Map<String, String>>();
+
+				map.put("template_id", "T7U3nHxo1Y5gzYovKic2EmYAQbvjrwAIL3fcIXuEZ40");
+
+				Map<String, String> first = new HashMap<String, String>();
+				first.put("value", "有新订单！");
+				first.put("color", "#173177");
+
+				Map<String, String> orderID = new HashMap<String, String>();
+				orderID.put("value", orderInfo.getOrderId() + "");
+				orderID.put("color", "#173177");
+				Map<String, String> orderMoneySum = new HashMap<String, String>();
+				orderMoneySum.put("value", orderInfo.getBigDecimalOrderMoney() + "元");
+				orderMoneySum.put("color", "#173177");
+				Map<String, String> backupFieldName = new HashMap<String, String>();
+				backupFieldName.put("value", "期望送货时间：");
+				Map<String, String> backupFieldData = new HashMap<String, String>();
+				backupFieldData.put("value", ""+orderInfo.getHopeArrivalTime());
+				backupFieldData.put("color", "#173177");
+				Map<String, String> remark = new HashMap<String, String>();
+				remark.put("value", "查看详情请点击！");
+				remark.put("color", "#173177");
+
+				dataMap.put("first", first);
+				dataMap.put("orderID", orderID);
+				dataMap.put("orderMoneySum", orderMoneySum);
+				dataMap.put("backupFieldName", backupFieldName);
+				dataMap.put("backupFieldData", backupFieldData);
+				dataMap.put("remark", remark);
+
+				map.put("data", dataMap);
+
+				String data = JsonUtils.writeValue(map);
+				String result = HttpUtils.httpPostData(url, data, "utf-8");
+				log.error("给小强发送模板消息，参数是："+data+"		返回内容是："+result);
+			}catch (Exception e) {
+				log.error("", e);
+				// TODO: handle exception
+			}
+		}
+
 	}
 
 	public OrderInfoService getOrderInfoService() {

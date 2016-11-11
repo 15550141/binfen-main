@@ -6,9 +6,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ec.api.dao.CategoryDao;
 import com.ec.api.dao.SkuDao;
+import com.ec.api.domain.Category;
 import com.ec.api.domain.Sku;
+import com.ec.api.domain.query.CategoryQuery;
 import com.ec.api.domain.query.SkuQuery;
+import com.ec.api.service.CategoryService;
 import com.ec.api.service.SkuService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -36,6 +40,8 @@ public class ItemController extends BaseController {
 	private ItemService itemService;
 	@Autowired
 	private SkuDao skuDao;
+	@Autowired
+	private CategoryDao categoryDao;
 	
 	@RequestMapping(value="getItemsByVenderUserId", method={RequestMethod.GET, RequestMethod.POST})
 	public @ResponseBody Result getItemsByVenderUserId(HttpServletRequest request,HttpServletResponse response, ModelMap context){
@@ -93,6 +99,23 @@ public class ItemController extends BaseController {
 			List<Item> list = itemService.getAll();
 			context.put("list", list);
 			return "item/all";
+		}catch (Exception e) {
+			log.error("", e);
+		}
+		return "error";
+	}
+
+	@RequestMapping(value="category", method={RequestMethod.GET, RequestMethod.POST})
+	public String category(HttpServletRequest request,HttpServletResponse response, ModelMap context){
+		try{
+			CategoryQuery query = new CategoryQuery();
+			query.setYn(1);
+			query.setParentCategoryId(128);
+
+			List<Category> list = categoryDao.selectByCondition(query);
+
+			context.put("list", list);
+			return "item/category";
 		}catch (Exception e) {
 			log.error("", e);
 		}

@@ -2,6 +2,7 @@ package com.ec.api.dao.impl;
 
 import java.util.List;
 
+import com.ec.api.domain.Sku;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
 
 import com.ec.api.dao.ItemDao;
@@ -38,6 +39,11 @@ public class ItemDaoImpl extends SqlMapClientTemplate implements ItemDao {
 	@Override
 	public List<Item> selectByConditionForPage(ItemQuery itemQuery) {
 		return (List<Item>)queryForList("Item.selectByConditionForPage",itemQuery);
+	}
+
+	@Override
+	public Integer delStock(Item item) {
+		return delete("Item.delStock", item);
 	}
 
 }

@@ -138,6 +138,7 @@
                                     <label for="radiopay1"><img style="height:20px;margin-right:5px;" src="/misc/style/image/weixinzhifutubiao.png">微信支付#if($!cartInfo.totlePreferentialPrice!=0)#end</label>
 								</li>
 							</ul>
+
 							<!--
 							<h5>货到付款</h5>
                             <ul class="list-unstyled modal-orderpay-list">
@@ -173,6 +174,19 @@
                                 </li>
                             </ul>
 							-->
+
+                            <h5>月结支付</h5>
+                            <ul class="list-unstyled modal-orderpay-list">
+                                <li class="clearfix">
+                                    <input type="hidden" value="2" class="paymentType">
+                                    <input type="hidden" value="3" class="orderType">
+                                    <input type="hidden" value="月结支付" class="pay_name">
+                                    <input type="hidden" value="月结支付" class="payment_name">
+                                    <input type="radio" id="radiopay2" name="radiopay" class="show">
+                                    <label for="radiopay1"><img style="height:20px;margin-right:5px;" src="/misc/style/image/huodaofukuantubiao.jpg">月结支付</label>
+                                </li>
+                            </ul>
+
                         </div>                        
                     </div>
                 </div>

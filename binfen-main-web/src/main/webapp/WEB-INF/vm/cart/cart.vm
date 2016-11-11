@@ -75,7 +75,7 @@
 									<div class="m-cart-numswrap">
 					                    <div class="num_sel_lage pull-right clearfix">
 				                        	<span class="inC">-</span>
-					                        <input type="text" disabled="" name='qty' autocomplete='on' value="$!sku.num"  >
+					                        <input id="buyNum_$!sku.skuId" oninput="cartNumChange($!sku.skuId);" type="text" name='qty' value="$!sku.num"  >
 					                        <span class="deC">+</span>
 					                    </div>
 					                </div>

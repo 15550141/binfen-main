@@ -4,10 +4,10 @@
     <div class="container-fluid">
         <div class="navbar-header text-center clearfix">
             <a class="navbar-func pull-left" href="/"><span class="glyphicon fdayicon fdayicon-home"></span></a>
-				<span class="pull-right navbar-func">
-	               	<a href="/user" class="navbar-login"><span class="glyphicon fdayicon fdayicon-login"></span></a>
-	                <a href="/cart" class="navbar-cart"><span class="glyphicon fdayicon fdayicon-cart"></span></a>
-     			</span>
+            <span class="pull-right navbar-func">
+                <a href="/user" class="navbar-login"><span class="glyphicon fdayicon fdayicon-login"></span></a>
+                <a href="/cart" class="navbar-cart"><span class="glyphicon fdayicon fdayicon-cart"></span></a>
+            </span>
             <span class="navbar-title">全部鲜果</span>
         </div>
     </div>

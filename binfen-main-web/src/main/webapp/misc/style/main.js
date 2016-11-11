@@ -75,6 +75,10 @@ switch(urlPath){
 		commonJs.push('productlist');
 		commonJs.push('cart');
 		break;
+	case '/item/list':
+		commonJs.push('productlist');
+		commonJs.push('cart');
+		break;
 	case '/item':
 		commonJs.push('productlist');
 		commonJs.push('cart');

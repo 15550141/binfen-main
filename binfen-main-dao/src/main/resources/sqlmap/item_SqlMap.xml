@@ -40,6 +40,7 @@
     <result column="if_have_cprz" property="ifHaveCprz"  />
     <result column="market_start_time" property="marketStartTime" jdbcType="TIMESTAMP" />
     <result column="market_end_time" property="marketEndTime" jdbcType="TIMESTAMP" />
+      <result column="stock_num" property="stockNum"  />
   </resultMap>
   
   <!-- 查询条件 -->
@@ -128,9 +129,12 @@
       <isNotNull prepend="and" property="salesPropertySet" >
         sales_property_set = #salesPropertySet:VARCHAR#
       </isNotNull>
-      <isNotNull prepend="and" property="yn" >
-        YN = #yn:TINYINT#
-      </isNotNull>
+        <isNotNull prepend="and" property="yn" >
+            YN = #yn:TINYINT#
+        </isNotNull>
+        <isNotNull prepend="and" property="stockNum" >
+            stock_num = #stockNum#
+        </isNotNull>
     </dynamic>
   </sql>
 
@@ -138,7 +142,7 @@
     select ITEM_ID, ITEM_NAME, ITEM_TYPE, CATEGORY_ID1, CATEGORY_ID2, CATEGORY_ID3, CATEGORY_ID4, VENDER_USER_ID, ITEM_STATUS,
       ON_SHELF_TIME, OFF_SHELF_TIME, LEAST_BUY, ITEM_IMAGE, IF_DEPOSIT, DEPOSIT_RATE,
       origin_province, origin_city, origin_county, supply_province, supply_city, supply_county, Weight, differ_Weight, Packing_type, length, Wide, High, sales_property_set, YN, CREATED,
-      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address
+      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address,stock_num
     from item
     where ITEM_ID = #itemId:INTEGER#
   </select>
@@ -148,13 +152,13 @@
     insert into item (ITEM_NAME, ITEM_TYPE, CATEGORY_ID1, CATEGORY_ID2, CATEGORY_ID3, CATEGORY_ID4, VENDER_USER_ID,
       ITEM_STATUS, ON_SHELF_TIME, OFF_SHELF_TIME, LEAST_BUY, ITEM_IMAGE, IF_DEPOSIT, DEPOSIT_RATE,origin_province, origin_city, origin_county, supply_province, supply_city, supply_county,
       Weight, differ_Weight, Packing_type, length, Wide, High, sales_property_set, YN, CREATED,
-      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address)
+      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address,stock_num)
     values (#itemName:VARCHAR#, #itemType:INTEGER#, #categoryId1:INTEGER#,
       #categoryId2:INTEGER#, #categoryId3:INTEGER#, #categoryId4:INTEGER#, #venderUserId:INTEGER#, #itemStatus:INTEGER#, #onShelfTime:TIMESTAMP#,
       #offShelfTime:TIMESTAMP#, #leastBuy:INTEGER#, #itemImage:VARCHAR#, #ifDeposit:INTEGER#,
       #depositRate:INTEGER#,#originProvince#, #originCity#, #originCounty#, #supplyProvince#, #supplyCity#, #supplyCounty#, #weight:VARCHAR#, #differWeight:VARCHAR#,
       #packingType:VARCHAR#, #length:VARCHAR#, #wide:VARCHAR#, #high:VARCHAR#, #salesPropertySet#, 1,
-      now(),now(),#unit#,#ifHaveZjbg#,#ifHaveCprz#,#marketStartTime#,#marketEndTime#,#originAddress#)
+      now(),now(),#unit#,#ifHaveZjbg#,#ifHaveCprz#,#marketStartTime#,#marketEndTime#,#originAddress#,#stockNum#)
       <!-- 返回自增主键 -->
       <selectKey resultClass="java.lang.Integer" keyProperty="itemId">
 			<![CDATA[SELECT @@IDENTITY AS ITEM_ID ]]>
@@ -224,9 +228,13 @@
       <isNotNull prepend="," property="high" >
         High = #high:VARCHAR#
       </isNotNull>
-      <isNotNull prepend="," property="yn" >
-        YN = #yn:TINYINT#
-      </isNotNull>
+        <isNotNull prepend="," property="yn" >
+            YN = #yn:TINYINT#
+        </isNotNull>
+        <isNotNull prepend="," property="stockNum" >
+            stock_num = #stockNum#
+        </isNotNull>
+
     </dynamic>
     where ITEM_ID = #itemId:INTEGER#
   </update>
@@ -240,7 +248,7 @@
      select ITEM_ID, ITEM_NAME, ITEM_TYPE, CATEGORY_ID1, CATEGORY_ID2, CATEGORY_ID3, CATEGORY_ID4, VENDER_USER_ID, ITEM_STATUS,
       ON_SHELF_TIME, OFF_SHELF_TIME, LEAST_BUY, ITEM_IMAGE, IF_DEPOSIT, DEPOSIT_RATE,
       origin_province, origin_city, origin_county, supply_province, supply_city, supply_county, Weight, differ_Weight, Packing_type, length, Wide, High, sales_property_set, YN, CREATED,
-      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address
+      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address,stock_num
     from item
     <include refid="Item.condition" />
     order by ITEM_ID desc
@@ -250,11 +258,16 @@
     select ITEM_ID, ITEM_NAME, ITEM_TYPE, CATEGORY_ID1, CATEGORY_ID2, CATEGORY_ID3, CATEGORY_ID4, VENDER_USER_ID, ITEM_STATUS,
       ON_SHELF_TIME, OFF_SHELF_TIME, LEAST_BUY, ITEM_IMAGE, IF_DEPOSIT, DEPOSIT_RATE,
       origin_province, origin_city, origin_county, supply_province, supply_city, supply_county, Weight, differ_Weight, Packing_type, length, Wide, High, sales_property_set, YN, CREATED,
-      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address
+      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address,stock_num
     from item
     <include refid="Item.condition" />
     order by ITEM_ID desc
   	limit #start#,#pageSize#
   </select>
-  
+
+    <update id="delStock" parameterClass="com.ec.api.domain.Item" >
+        update item set modified=now(),stock_num=stock_num-#stockNum#
+        where item_id = #itemId# and stock_num>=#stockNum#
+    </update>
+
 </sqlMap>

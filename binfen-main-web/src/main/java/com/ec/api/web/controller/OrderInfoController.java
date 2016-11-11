@@ -90,7 +90,7 @@ public class OrderInfoController extends BaseController {
 		orderInfo.setUserId(uid);
 		orderInfo.setHopeArrivalTime(hopeArrivalTime);
 		
-		if(orderType == null || orderType == 0 || (orderType != 1 && orderType != 2)){
+		if(orderType == null || orderType == 0 || (orderType != 1 && orderType != 2 && orderType != 3)){
 			result.setSuccess(false);
 			result.setResultMessage("请选择支付方式");
 			return result;

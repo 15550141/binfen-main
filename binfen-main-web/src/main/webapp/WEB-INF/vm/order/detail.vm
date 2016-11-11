@@ -89,6 +89,9 @@
 						#if($!order.paymentType == 3)
 							在线支付-微信支付
 						#end
+                        #if($!order.paymentType == 5)
+                            月结支付
+                        #end
 					</span>支付方式
                 </div>   
                 <!--

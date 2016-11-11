@@ -21,7 +21,7 @@ public class OrderInfo implements Serializable{
     /** 订单ID */
     private Integer orderId;
     
-    /** 订单类型（1、在线支付  2、货到付款） */
+    /** 订单类型（1、在线支付  2、货到付款 3、月结支付） */
     private Integer orderType;
     
     /** 支付方式 （1现金，2银行卡，3微信支付 ， 4支付宝支付） */
@@ -427,6 +427,9 @@ public class OrderInfo implements Serializable{
 		if(orderStatus == 17){
 			return "等待退款";
 		}
+        if(orderStatus == 18){
+            return "等待月结支付";
+        }
 		if(orderStatus == 51){
 			return "订单已取消";
 		}
