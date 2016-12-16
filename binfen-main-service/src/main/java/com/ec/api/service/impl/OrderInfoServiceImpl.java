@@ -82,8 +82,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			order.setIp(HttpUtils.getRemoteIp(request));
 
 			//如果是分销商，则打上分销商标记
-			if(FlagBitUtil.checkSign(userInfo.getProperties(), 1)){
-				order.setProperties(FlagBitUtil.sign(order.getProperties(), 1));
+			if(FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_FENXIAOSHANG)){
+				order.setProperties(FlagBitUtil.sign(order.getProperties(), PropertyConstants.USER_FENXIAOSHANG));
+			}
+			if(FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_FENXIAOSHANG_2)){
+				order.setProperties(FlagBitUtil.sign(order.getProperties(), PropertyConstants.USER_FENXIAOSHANG_2));
 			}
 			//如果是自提订单
 			if(order.getSendType() == 1) {

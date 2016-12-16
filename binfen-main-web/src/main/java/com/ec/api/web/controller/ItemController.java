@@ -6,14 +6,17 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ec.api.common.utils.CookieUtils;
 import com.ec.api.dao.CategoryDao;
 import com.ec.api.dao.SkuDao;
 import com.ec.api.domain.Category;
 import com.ec.api.domain.Sku;
+import com.ec.api.domain.UserInfo;
 import com.ec.api.domain.query.CategoryQuery;
 import com.ec.api.domain.query.SkuQuery;
 import com.ec.api.service.CategoryService;
 import com.ec.api.service.SkuService;
+import com.ec.api.service.UserInfoService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +45,8 @@ public class ItemController extends BaseController {
 	private SkuDao skuDao;
 	@Autowired
 	private CategoryDao categoryDao;
+	@Autowired
+	private UserInfoService userInfoService;
 	
 	@RequestMapping(value="getItemsByVenderUserId", method={RequestMethod.GET, RequestMethod.POST})
 	public @ResponseBody Result getItemsByVenderUserId(HttpServletRequest request,HttpServletResponse response, ModelMap context){
@@ -84,6 +89,9 @@ public class ItemController extends BaseController {
 				if(StringUtils.isNotBlank(skuId)){
 					context.put("skuId", Integer.parseInt(skuId));
 				}
+				Integer uid = CookieUtils.getUid(request);
+				UserInfo userInfo = userInfoService.getUserInfoByUserId(uid);
+				context.put("userInfo", userInfo);
 				return "item/detail";
 			}
 		}catch (Exception e) {
@@ -122,6 +130,31 @@ public class ItemController extends BaseController {
 		return "error";
 	}
 
+	@RequestMapping(value="fenxiao", method={RequestMethod.GET, RequestMethod.POST})
+	public String fenxiao(HttpServletRequest request,HttpServletResponse response, ModelMap context){
+		try{
+			ItemQuery query = new ItemQuery();
+			query.setCategoryId2(264);
+			query.setItemStatus(1);//上架
+			List<Item> list = itemService.getAll(query);
+			SkuQuery skuQuery = new SkuQuery();
+			skuQuery.setYn(1);
+			for(Item item : list){
+				skuQuery.setItemId(item.getItemId());
+				List<Sku> skus = skuDao.selectByCondition(skuQuery);
+				item.setSkuList(skus);
+			}
+			Integer uid = CookieUtils.getUid(request);
+			UserInfo userInfo = userInfoService.getUserInfoByUserId(uid);
+			context.put("userInfo", userInfo);
+			context.put("list", list);
+			return "item/list";
+		}catch (Exception e) {
+			log.error("", e);
+		}
+		return "error";
+	}
+
 	@RequestMapping(value="list", method={RequestMethod.GET, RequestMethod.POST})
 	public String list(String categoryId, HttpServletRequest request,HttpServletResponse response, ModelMap context){
 		try{
@@ -136,6 +169,9 @@ public class ItemController extends BaseController {
 				List<Sku> skus = skuDao.selectByCondition(skuQuery);
 				item.setSkuList(skus);
 			}
+			Integer uid = CookieUtils.getUid(request);
+			UserInfo userInfo = userInfoService.getUserInfoByUserId(uid);
+			context.put("userInfo", userInfo);
 			context.put("list", list);
 			return "item/list";
 		}catch (Exception e) {

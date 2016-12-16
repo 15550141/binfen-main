@@ -80,7 +80,13 @@
     "price":"",
     "sys_attrprice":{
        #foreach($sku in $!item.skuList)
-           "$!sku.skuId":{"price":"$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.salePrice)","mktprice":"0"},
+		   #if($flagBitUtil.checkSign($!userInfo.properties, 2) && $!sku.fxPrice2)
+               	"$!sku.skuId":{"price":"$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.fxPrice2)","mktprice":"0"},
+		   #elseif($flagBitUtil.checkSign($!userInfo.properties, 1) && $!sku.fxPrice)
+           		"$!sku.skuId":{"price":"$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.fxPrice)","mktprice":"0"},
+		   #else
+				"$!sku.skuId":{"price":"$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.salePrice)","mktprice":"0"},
+		   #end
 	   #end
 	}
 };

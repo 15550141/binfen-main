@@ -100,6 +100,9 @@
 				<entry key="bigDecimalUtils">
 					<bean class="com.ec.api.common.utils.BigDecimalUtils"/>
 				</entry>
+				<entry key="flagBitUtil">
+					<bean class="com.ec.api.common.utils.FlagBitUtil"/>
+				</entry>
 			</map>
 		</constructor-arg>
 	</bean>

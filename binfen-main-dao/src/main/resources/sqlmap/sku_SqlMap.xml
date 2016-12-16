@@ -18,6 +18,7 @@
     <result column="modified" property="modified" jdbcType="TIMESTAMP" />
     <result column="yn" property="yn"  />
     <result column="properties" property="properties"  />
+    <result column="fx_price_2" property="fxPrice2"  />
   </resultMap>
   
    <!-- 查询条件 -->
@@ -47,6 +48,9 @@
       <isNotNull prepend="and" property="fxPrice" >
         fx_price = #fxPrice:INTEGER#
       </isNotNull>
+      <isNotNull prepend="and" property="fxPrice2" >
+        fx_price_2 = #fxPrice2:INTEGER#
+      </isNotNull>
       <isNotNull prepend="and" property="originalPrice" >
         original_price = #originalPrice#
       </isNotNull>
@@ -66,7 +70,7 @@
   </sql>
 
   <sql id="searchColoum">
-    SKU_ID, ITEM_ID, sales_property,sales_property_name , least_buy, bar_code, Cost_price, sale_price, fx_price, original_price, stock, properties, created, modified,yn,properties
+    SKU_ID, ITEM_ID, sales_property,sales_property_name , least_buy, bar_code, Cost_price, sale_price, fx_price, original_price, stock, properties, created, modified,yn,properties,fx_price_2
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="SkuResult" parameterClass="java.lang.Integer" >
@@ -77,9 +81,9 @@
 
   <insert id="insert" parameterClass="com.ec.api.domain.Sku" >
     insert into sku ( ITEM_ID, sales_property, least_buy , bar_code ,Cost_price, sale_price, fx_price, original_price, stock, properties, created,
-      modified,yn,properties)
+      modified,yn,properties, fx_price_2)
     values ( #itemId:INTEGER#, #salesProperty:VARCHAR#, #leastBuy:INTEGER#,#barCode:VARCHAR#,
-      #costPrice:INTEGER#, #salePrice:INTEGER#, #fxPrice#,#stock:INTEGER#, #properties#, now(),now(), 1, #properties#)
+      #costPrice:INTEGER#, #salePrice:INTEGER#, #fxPrice#,#stock:INTEGER#, #properties#, now(),now(), 1, #properties#, #fxPrice2#)
       <!-- 返回自增主键 -->
       <selectKey resultClass="java.lang.Integer" keyProperty="skuId">
 			<![CDATA[SELECT @@IDENTITY AS SKU_ID ]]>
@@ -110,6 +114,9 @@
       </isNotNull>
       <isNotNull prepend="," property="fxPrice" >
         fx_price = #fxPrice:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="fxPrice2" >
+        fx_price_2 = #fxPrice2:INTEGER#
       </isNotNull>
       <isNotNull prepend="," property="originalPrice" >
         original_price = #originalPrice:INTEGER#

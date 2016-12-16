@@ -24,7 +24,13 @@
                             <div class="m-prolist-info" pid="$!{sku.itemId}" ppid="$!{sku.skuId}" salesPropertyName="" type="normal" pno="2150609103">
                                 <h3>$!item.itemName</h3>
                                 <h4>$!sku.salesPropertyName</h4>
-                                <h5>$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.salePrice)</h5>
+                                #if($flagBitUtil.checkSign($!userInfo.properties, 2) && $!sku.fxPrice2)
+                                    <h5>$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.fxPrice2)</h5>
+                                #elseif($flagBitUtil.checkSign($!userInfo.properties, 1) && $!sku.fxPrice)
+                                    <h5>$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.fxPrice)</h5>
+                                #else
+                                    <h5>$!bigDecimalUtils.intDivide100ToBigDecimal($!sku.salePrice)</h5>
+                                #end
                                 <span class="m-prolist-car"><i class="glyphicon fdayicon fdayicon-procart"></i></span>
                             </div>
                         </a>

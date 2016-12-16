@@ -223,10 +223,13 @@ public class CartServiceImpl implements CartService {
 
 						UserInfo userInfo = this.userInfoDao.selectByUserId(uid);
 						//如果是分销商品并且是分销商买家，则商品价格为分销商价
-						if(FlagBitUtil.checkSign(sku.getProperties(), PropertyConstants.USER_FENXIAOSHANG)
+						if(FlagBitUtil.checkSign(sku.getProperties(), PropertyConstants.USER_FENXIAOSHANG_2)
+								&& FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_FENXIAOSHANG_2)){
+							cart.setSkuPrice(new BigDecimal(sku.getFxPrice2()).divide(new BigDecimal(100)));
+						}else if(FlagBitUtil.checkSign(sku.getProperties(), PropertyConstants.USER_FENXIAOSHANG)
 								&& FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_FENXIAOSHANG)){
 							cart.setSkuPrice(new BigDecimal(sku.getFxPrice()).divide(new BigDecimal(100)));
-						}else {
+						}else{
 							cart.setSkuPrice(new BigDecimal(sku.getSalePrice()).divide(new BigDecimal(100)));
 						}
 						cart.setProperties(sku.getProperties());
