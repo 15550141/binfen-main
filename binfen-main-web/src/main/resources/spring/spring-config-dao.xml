@@ -104,8 +104,12 @@
     <bean id="accessTokenDao" class="com.ec.api.dao.impl.AccessTokenDaoImpl">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    
+
     <bean id="taskDao" class="com.ec.api.dao.impl.TaskDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="activityExchangeDao" class="com.ec.api.dao.impl.ActivityExchangeDaoImpl">
         <property name="dataSource" ref="dataSource"/>
     </bean>
     

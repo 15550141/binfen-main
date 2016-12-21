@@ -226,10 +226,14 @@ public class CartServiceImpl implements CartService {
 						if(FlagBitUtil.checkSign(sku.getProperties(), PropertyConstants.USER_FENXIAOSHANG_2)
 								&& FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_FENXIAOSHANG_2)){
 							cart.setSkuPrice(new BigDecimal(sku.getFxPrice2()).divide(new BigDecimal(100)));
-						}else if(FlagBitUtil.checkSign(sku.getProperties(), PropertyConstants.USER_FENXIAOSHANG)
-								&& FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_FENXIAOSHANG)){
+						}
+						//分销价1 是 B2B 和 普通分销商共享的一个字段，所以有此判断
+						else if(FlagBitUtil.checkSign(sku.getProperties(), PropertyConstants.USER_FENXIAOSHANG)
+								&& (FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_FENXIAOSHANG)  || FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_B2B))){
 							cart.setSkuPrice(new BigDecimal(sku.getFxPrice()).divide(new BigDecimal(100)));
-						}else{
+						}
+						//都不是，则使用原价
+						else{
 							cart.setSkuPrice(new BigDecimal(sku.getSalePrice()).divide(new BigDecimal(100)));
 						}
 						cart.setProperties(sku.getProperties());
@@ -274,10 +278,14 @@ public class CartServiceImpl implements CartService {
 			//满减逻辑结束
 			
 			//运费逻辑开始
-			if(true){//TODO 判断是否添加运费
-				freightMoney = new BigDecimal(4);//不满39，添加4元运费	//目前变成固定4元运费
-				totleSalePrice = totleSalePrice.add(freightMoney);//销售价加上运费
+			UserInfo userInfo = userInfoDao.selectByUserId(uid);
+			if(FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_B2B)){
+				freightMoney = new BigDecimal(0);
+			}else{
+				//B2B不收运费，其他的默认5块，到订单页在计算具体运费信息
+				freightMoney = new BigDecimal(5);//不满39，添加4元运费	//目前变成固定4元运费
 			}
+			totleSalePrice = totleSalePrice.add(freightMoney);//销售价加上运费
 			//运费逻辑结束
 			
 			//直接清空对象，释放内存

@@ -78,7 +78,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			}
 			
 			//设置基本信息
-			this.setBasicOrderInfo(order);
+			this.setBasicOrderInfo(order, userInfo);
 			order.setIp(HttpUtils.getRemoteIp(request));
 
 			//如果是分销商，则打上分销商标记
@@ -87,6 +87,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 			}
 			if(FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_FENXIAOSHANG_2)){
 				order.setProperties(FlagBitUtil.sign(order.getProperties(), PropertyConstants.USER_FENXIAOSHANG_2));
+			}
+			if(FlagBitUtil.checkSign(userInfo.getProperties(), PropertyConstants.USER_B2B)){
+				order.setProperties(FlagBitUtil.sign(order.getProperties(), PropertyConstants.USER_B2B));
 			}
 			//如果是自提订单
 			if(order.getSendType() == 1) {
@@ -354,7 +357,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 	}
 
 
-    private void setBasicOrderInfo(OrderInfo order){
+    private void setBasicOrderInfo(OrderInfo order, UserInfo userInfo){
 		//默认卖家
 		order.setVenderUserId(10000);
 		

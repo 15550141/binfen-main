@@ -42,6 +42,7 @@
 			<mvc:mapping path="/user/*/*" />
 			<mvc:mapping path="/order/*" />
 			<mvc:mapping path="/order/*/*" />
+			<mvc:mapping path="/activityExchange/*" />
 			<bean class="com.ec.api.web.intercept.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
