@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="缤纷果园 鲜果味道" name="keywords">
+    <title>$!title</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <form class="form-horizontal" style="font-size: 25px">
+            #if($!detail.status == 0)
+                您已经申请#if($!detail == 1||$!detail == 2)分销商#else B2B商家 #end，请等待管理员审核
+            #elseif($!detail.status == 1)
+                您已经申请通过成为：#if($!detail == 1||$!detail == 2)分销商#else B2B商家 #end
+            #elseif($!detail.status == 2)
+                您的#if($!detail == 1||$!detail == 2)分销商#else B2B商家 #end 申请已被拒绝
+            #end
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
