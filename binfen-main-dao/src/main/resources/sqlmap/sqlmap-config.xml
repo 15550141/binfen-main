@@ -38,5 +38,6 @@ Config 2.0/" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
 	<sqlMap resource="sqlmap/access_token_SqlMap.xml"/>
     <sqlMap resource="sqlmap/task_SqlMap.xml"/>
     <sqlMap resource="sqlmap/activity_exchange_SqlMap.xml"/>
+    <sqlMap resource="sqlmap/cooperation_business_SqlMap.xml"/>
 	
 </sqlMapConfig>
