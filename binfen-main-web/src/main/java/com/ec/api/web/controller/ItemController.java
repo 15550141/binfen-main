@@ -118,10 +118,18 @@ public class ItemController extends BaseController {
 		try{
 			CategoryQuery query = new CategoryQuery();
 			query.setYn(1);
-			query.setParentCategoryId(128);
+			query.setParentCategoryId(367);
 
 			List<Category> list = categoryDao.selectByCondition(query);
 
+			query.setParentCategoryId(416);
+			List<Category> list2 = categoryDao.selectByCondition(query);
+
+			query.setParentCategoryId(417);
+			List<Category> list3 = categoryDao.selectByCondition(query);
+
+			list.addAll(list2);
+			list.addAll(list3);
 			context.put("list", list);
 			return "item/category";
 		}catch (Exception e) {

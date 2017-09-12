@@ -19,7 +19,7 @@
 
 		#foreach($!detail in $!list)
             <li>
-                <a class="fdayicon" href="http://www.binfenguoyuan.cn/item/list?categoryId=$!detail.categoryId">
+                <a class="fdayicon" href="/item/list?categoryId=$!detail.categoryId">
                     <i></i>
                     <h5>$!detail.categoryName</h5>
                     <div></div>
