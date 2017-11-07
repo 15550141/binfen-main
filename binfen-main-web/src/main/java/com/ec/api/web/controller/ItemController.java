@@ -1,5 +1,6 @@
 package com.ec.api.web.controller;
 
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.List;
 
@@ -168,6 +169,31 @@ public class ItemController extends BaseController {
 		try{
 			ItemQuery query = new ItemQuery();
 			query.setCategoryId3(Integer.parseInt(categoryId));
+			query.setItemStatus(1);//上架
+			List<Item> list = itemService.getAll(query);
+			SkuQuery skuQuery = new SkuQuery();
+			skuQuery.setYn(1);
+			for(Item item : list){
+				skuQuery.setItemId(item.getItemId());
+				List<Sku> skus = skuDao.selectByCondition(skuQuery);
+				item.setSkuList(skus);
+			}
+			Integer uid = CookieUtils.getUid(request);
+			UserInfo userInfo = userInfoService.getUserInfoByUserId(uid);
+			context.put("userInfo", userInfo);
+			context.put("list", list);
+			return "item/list";
+		}catch (Exception e) {
+			log.error("", e);
+		}
+		return "error";
+	}
+
+	@RequestMapping(value="search", method={RequestMethod.GET, RequestMethod.POST})
+	public String search(String name, HttpServletRequest request,HttpServletResponse response, ModelMap context){
+		try{
+			ItemQuery query = new ItemQuery();
+			query.setItemName(URLDecoder.decode(name,"utf-8"));
 			query.setItemStatus(1);//上架
 			List<Item> list = itemService.getAll(query);
 			SkuQuery skuQuery = new SkuQuery();

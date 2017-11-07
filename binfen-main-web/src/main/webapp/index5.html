@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>鲜果味道</title>
+    <meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1,maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <link rel="shortcut icon" href="/favicon.ico" >
+    <link rel="apple-touch-icon" sizes="76x76" href="/misc/style/webIcon.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/misc/style/webIcon.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/misc/style/webIcon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/misc/style/webIcon.png" />
+    <link type="image/x-icon" rel="Shortcut Icon" href="/misc/style/webIcon.png">
+
+    <link rel="stylesheet" type="text/css" href="/misc/cui/style-0670ba24b6.css">
+
+    <script type="text/javascript" async="" src="/misc/cui/vds.js"></script>
+    <script type="text/javascript">
+
+        var _vds = _vds || [];
+        window._vds = _vds;
+        (function () {
+            _vds.push(['setAccountId', 'b281faa8ab854d8c']);
+            _vds.push(['enableHT', true]);
+            (function () {
+                var vds = document.createElement('script');
+                vds.type = 'text/javascript';
+                vds.async = true;
+                vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(vds, s);
+            })();
+        })();
+
+
+//        t = ~~(100 * document.body.scrollTop / parseInt(document.documentElement.style.fontSize, 10));
+//        alert(t);
+//        document.documentElement.style.fontSize = t;
+
+
+        (function () {
+            var view_width = document.getElementsByTagName('html')[0].getBoundingClientRect().width;
+            var _html = document.getElementsByTagName('html')[0];
+            view_width>640?_html.style.fontSize=100 +'px':_html.style.fontSize =view_width/6.5+'px';
+        })();
+    </script>
+    <style type="text/css">#YSF-BTN-HOLDER {
+        position: fixed;
+        max-width: 30px;
+        max-height: 120px;
+        right: 30px;
+        bottom: 0px;
+        cursor: pointer;
+        overflow: visible;
+        filter: alpha(opacity=100);
+        opacity: 1;
+        z-index: 9990
+    }
+
+    #YSF-BTN-HOLDER:hover {
+        filter: alpha(opacity=95);
+        opacity: .95
+    }
+
+    #YSF-BTN-HOLDER img {
+        display: block;
+        overflow: hidden;
+    }
+
+    #YSF-BTN-CIRCLE {
+        display: none;
+        position: absolute;
+        right: -5px;
+        top: -5px;
+        width: auto;
+        min-width: 12px;
+        height: 20px;
+        padding: 0 4px;
+        background-color: #f00;
+        font-size: 12px;
+        line-height: 20px;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        font-family: sans-serif;
+        border-radius: 10px;
+        z-index: 1;
+    }
+
+    #YSF-BTN-HOLDER.layer-1 #YSF-BTN-CIRCLE {
+        top: -30px;
+    }
+
+    #YSF-BTN-HOLDER.layer-2 #YSF-BTN-CIRCLE {
+        top: -30px;
+    }
+
+    #YSF-BTN-HOLDER.layer-3 #YSF-BTN-CIRCLE {
+        top: -30px;
+    }
+
+    #YSF-BTN-HOLDER.layer-4 #YSF-BTN-CIRCLE {
+        top: -30px;
+    }
+
+    #YSF-BTN-HOLDER.layer-5 #YSF-BTN-CIRCLE {
+        top: -30px;
+    }
+
+    #YSF-BTN-HOLDER.layer-6 #YSF-BTN-CIRCLE {
+        top: -5px;
+    }
+
+    #YSF-BTN-BUBBLE {
+        display: none;
+        position: absolute;
+        left: -274px;
+        bottom: 0px;
+        width: 278px;
+        height: 80px;
+        box-sizing: border-box;
+        padding: 14px 22px;
+        filter: alpha(opacity=100);
+        opacity: 1;
+        background: url(https://qiyukf.com/sdk//res/img/sdk/bg_floatMsg2x.png) no-repeat;
+        background: url(https://qiyukf.com/sdk//res/img/sdk/bg_floatMsg.png);
+        background-size: 278px 80px;
+        z-index: 1;
+    }
+
+    #YSF-BTN-HOLDER.layer-1 #YSF-BTN-BUBBLE {
+        bottom: 9px;
+    }
+
+    #YSF-BTN-HOLDER.layer-2 #YSF-BTN-BUBBLE {
+        bottom: 9px;
+    }
+
+    #YSF-BTN-HOLDER.layer-3 #YSF-BTN-BUBBLE {
+        bottom: 9px;
+    }
+
+    #YSF-BTN-HOLDER.layer-4 #YSF-BTN-BUBBLE {
+        bottom: 9px;
+    }
+
+    #YSF-BTN-HOLDER.layer-5 #YSF-BTN-BUBBLE {
+        bottom: 9px;
+    }
+
+    #YSF-BTN-HOLDER.layer-6 #YSF-BTN-BUBBLE {
+        bottom: -6px;
+    }
+
+    #YSF-BTN-BUBBLE:hover {
+        filter: alpha(opacity=95);
+        opacity: .95
+    }
+
+    #YSF-BTN-CONTENT {
+        height: 45px;
+        padding: 0;
+        white-space: normal;
+        word-break: break-all;
+        text-align: left;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #222;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    #YSF-BTN-ARROW {
+        display: none;
+    }
+
+    #YSF-BTN-CLOSE {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        right: 4px;
+        top: -3px;
+        filter: alpha(opacity=90);
+        opacity: .9;
+        cursor: pointer;
+        background: url(https://qiyukf.com/sdk//res/img/sdk/btn-close.png) no-repeat;
+        z-index: 1
+    }
+
+    #YSF-BTN-CLOSE:hover {
+        filter: alpha(opacity=100);
+        opacity: 1;
+    }
+
+    #YSF-PANEL-CORPINFO.ysf-chat-layeropen {
+        width: 511px;
+        height: 470px;
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, .15);
+    }
+
+    #YSF-PANEL-CORPINFO {
+        position: fixed;
+        bottom: 0px;
+        right: 20px;
+        width: 0;
+        height: 0;
+        z-index: 99999;
+    }
+
+    #YSF-PANEL-INFO.ysf-chat-layeropen {
+        width: 311px;
+        height: 470px;
+        filter: alpha(opacity=100);
+        opacity: 1;
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, .15);
+    }
+
+    #YSF-PANEL-INFO {
+        position: fixed;
+        bottom: 0px;
+        right: 20px;
+        width: 0px;
+        height: 0px;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        z-index: 99999;
+    }
+
+    #YSF-PANEL-INFO .u-btn {
+        background-color: #F2A654
+    }
+
+    #YSF-CUSTOM-ENTRY {
+        background-color: #F96868;
+    }
+
+    #YSF-CUSTOM-ENTRY-0 {
+        position: relative;
+        bottom: 24px;
+        width: auto;
+        background-color: #F2A654;
+        box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    #YSF-CUSTOM-ENTRY-1 {
+        position: relative;
+        bottom: 24px;
+        width: auto;
+        background-color: #F2A654;
+        border-radius: 14px;
+        box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    #YSF-CUSTOM-ENTRY-2 {
+        position: relative;
+        bottom: 24px;
+        width: auto;
+        background-color: #F2A654;
+        border-radius: 0;
+        box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    #YSF-CUSTOM-ENTRY-3 {
+        position: relative;
+        bottom: 24px;
+        width: auto;
+        background-color: #F2A654;
+        border-radius: 50%;
+        box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    #YSF-CUSTOM-ENTRY-4 {
+        position: relative;
+        bottom: 24px;
+        width: auto;
+        background-color: #F2A654;
+        border-radius: 50%;
+        box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    #YSF-CUSTOM-ENTRY-5 {
+        position: relative;
+        bottom: 24px;
+        width: auto;
+        background-color: #F2A654;
+        border-radius: 5px;
+        box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    #YSF-CUSTOM-ENTRY-6 {
+        position: relative;
+        bottom: 0px;
+        width: auto;
+        background-color: #F2A654;
+        border-radius: 5px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    #YSF-CUSTOM-ENTRY-0 img {
+        max-width: 300px;
+        height: auto;
+    }
+
+    #YSF-CUSTOM-ENTRY-1 img {
+        width: 28px;
+        height: auto;
+    }
+
+    #YSF-CUSTOM-ENTRY-2 img {
+        width: 58px;
+        height: auto;
+    }
+
+    #YSF-CUSTOM-ENTRY-3 img {
+        width: 60px;
+        height: auto;
+    }
+
+    #YSF-CUSTOM-ENTRY-4 img {
+        width: 60px;
+        height: auto;
+    }
+
+    #YSF-CUSTOM-ENTRY-5 img {
+        width: 60px;
+        height: auto;
+    }
+
+    #YSF-CUSTOM-ENTRY-6 img {
+        width: 115px;
+        height: auto;
+    }
+
+    #YSF-IFRAME-LAYER {
+        border: 0;
+        outline: none;
+    }
+
+    .ysf-online-invite-wrap {
+        z-index: 10001;
+        position: fixed;
+        _position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+
+    .ysf-online-invite {
+        position: relative;
+        top: -50%;
+        left: -50%;
+        cursor: pointer;
+    }
+
+    .ysf-online-invite img {
+        display: block;
+        width: 250px;
+    }
+
+    .ysf-online-invite .ysf-online-invite-img {
+        width: 100%;
+        height: 100%
+    }
+
+    .ysf-online-invite .text {
+        position: absolute;
+        top: -11px;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+        margin: 36px 20px 0 67px;
+        line-height: 140%;
+        color: #526069;
+        font-size: 14px;
+        font-family: "Microsoft YaHei", "微软雅黑", tahoma, arial, simsun, "宋体";
+        text-align: left;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    .ysf-online-invite .close {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        width: 32px;
+        height: 32px;
+        background: url(https://qiyukf.com/sdk/res/img/invite-close.png) no-repeat;
+        cursor: pointer;
+    }
+
+    .ysf-online-invite .close.custom {
+        top: -16px;
+        right: -16px;
+    }</style>
+</head>
+<body>
+<div id="wrap">
+    <div data-reactroot="" id="index">
+        <div class="slider" id="banner">
+            <!--
+            <div class="hd autoWidth7">
+                <ul>
+                    <li class="">1</li>
+                    <li class="">2</li>
+                    <li class="on">3</li>
+                    <li class="">4</li>
+                    <li class="">5</li>
+                    <li class="">6</li>
+                    <li class="">7</li>
+                </ul>
+            </div>
+            -->
+            <div class="bd isBanner">
+                <div class="tempWrap" style="overflow:hidden; position:relative;">
+                    <ul style="">
+                        <li style="display: table-cell; vertical-align: top; width: 640px;">
+                            <a class="" ref="">
+                                <img src="/misc/cui/05596748332450248.jpg">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--
+        <div class="today_top"><img src="/misc/cui/headlines.png" class="head_img">
+            <div class="avi_out_box">
+                <div class="auto_scroll_box" style="transform: translate(0px, 0rem);"><a
+                        href="">鲜果味道行情简报1</a></div>
+            </div>
+        </div>
+        -->
+        <div>
+            <div class="endTime_sole"><img src="/misc/cui/limited-berserk.png" class="head_img">
+                <div class="end_container "><span class="tip_textz">限购数量</span><span class="limit_num_box"><!-- react-text: 52 -->500
+                    <!-- /react-text --><!-- react-text: 53 -->件<!-- /react-text --></span></div>
+            </div>
+            <div class="end_time_goods"><img src="http://seller.binfenguoyuan.cn/img/2017/9/18/pu501639.jpg" class="endTime_goods_img">
+                <div class="goods_item_inf"><h4>金红宝蜜瓜</h4>
+                    <p class="desc_inf">酸甜可口 果肉晶莹</p>
+                    <div class="pri_out_box"><p class="pri_box"><span class="pri_num"><i
+                            style="color: rgb(241, 142, 0);">￥</i>2.1<i>/斤</i></span></p>
+                        <p class="old_pri_box">原价:￥<span>2.5斤</span></p></div>
+                    <a href="/item/detail?id=101535&skuId=102698"><span class="to_buy_btnz " >立即抢购</span></a></div>
+            </div>
+        </div>
+
+        <div>
+            <div class="today_hot"><img src="/misc/cui/recommend.png" class="head_img"></div>
+            <div class="hot_box"><a class="hot_goods_item" href="/item/detail?id=101076&skuId=102696"><h4>
+                西周蜜瓜</h4>
+                <p class="goods_inf_detail">酸甜多汁 果香浓郁</p>
+                <div class="goods_pro_img"><img src="http://seller.binfenguoyuan.cn/img/2017/7/13/pa701751.jpg">
+                    <div class="now_pri" style="margin-top: 0.25rem;"><i style="color: rgb(241, 142, 0);">￥</i>
+                        2.6<i>/斤</i></div>
+                    <p class="old_pri ">￥3.1/斤</p></div>
+            </a><a class="hot_goods_item" href="/item/detail?id=101076&skuId=102696"><h4>西州蜜瓜</h4>
+                <p class="goods_inf_detail">酸甜多汁 果香浓郁</p>
+                <div class="goods_pro_img"><img src="http://seller.binfenguoyuan.cn/img/2017/7/13/pa701751.jpg">
+                    <div class="now_pri" style="margin-top: 0.25rem;"><i style="color: rgb(241, 142, 0);">￥</i>
+                        2.6<i>/斤</i></div>
+                    <p class="old_pri ">￥3.1/斤</p></div>
+            </a></div>
+        </div>
+        <div>
+            <div class="week_great"><img src="/misc/cui/selected.png" class="head_img"></div>
+            <div class="week_great_box">
+                <ul>
+                    <li><a class="" href="http://www.binfenguoyuan.cn:8081/item/detail?id=101025&skuId=102637"><img
+                            src="http://seller.binfenguoyuan.cn/img/2017/7/13/pf526989.jpg"><h4>皇冠梨</h4>
+                        <p class="now_pri" style="margin-top: 0rem;">2.2/斤</p>
+                        <p class="old_pri ">￥2.5/斤</p></a></li>
+                    <li><a class="" href="http://www.binfenguoyuan.cn:8081/item/detail?id=101025&skuId=102637"><img
+                            src="http://seller.binfenguoyuan.cn/img/2017/7/13/pf526989.jpg"><h4>皇冠梨</h4>
+                        <p class="now_pri" style="margin-top: 0rem;">2.2/斤</p>
+                        <p class="old_pri ">￥2.5/斤</p></a></li>
+                    <li><a class="" href="http://www.binfenguoyuan.cn:8081/item/detail?id=101025&skuId=102637"><img
+                            src="http://seller.binfenguoyuan.cn/img/2017/7/13/pf526989.jpg"><h4>皇冠梨</h4>
+                        <p class="now_pri" style="margin-top: 0rem;">2.2/斤</p>
+                        <p class="old_pri ">￥2.5/斤</p></a></li>
+                    <li><a class="" href="http://www.binfenguoyuan.cn:8081/item/detail?id=101025&skuId=102637"><img
+                            src="http://seller.binfenguoyuan.cn/img/2017/7/13/pf526989.jpg"><h4>皇冠梨</h4>
+                        <p class="now_pri" style="margin-top: 0rem;">2.2/斤</p>
+                        <p class="old_pri ">￥2.5/斤</p></a></li>
+                    <li><a class="" href="http://www.binfenguoyuan.cn:8081/item/detail?id=101025&skuId=102637"><img
+                            src="http://seller.binfenguoyuan.cn/img/2017/7/13/pf526989.jpg"><h4>皇冠梨</h4>
+                        <p class="now_pri" style="margin-top: 0rem;">2.2/斤</p>
+                        <p class="old_pri ">￥2.5/斤</p></a></li>
+                    <li><a class="" href="http://www.binfenguoyuan.cn:8081/item/detail?id=101025&skuId=102637"><img
+                            src="http://seller.binfenguoyuan.cn/img/2017/7/13/pf526989.jpg"><h4>皇冠梨</h4>
+                        <p class="now_pri" style="margin-top: 0rem;">2.2/斤</p>
+                        <p class="old_pri ">￥2.5/斤</p></a></li>
+                    <li><a class="" href="http://www.binfenguoyuan.cn:8081/item/detail?id=101025&skuId=102637"><img
+                            src="http://seller.binfenguoyuan.cn/img/2017/7/13/pf526989.jpg"><h4>皇冠梨</h4>
+                        <p class="now_pri" style="margin-top: 0rem;">2.2/斤</p>
+                        <p class="old_pri ">￥2.5/斤</p></a></li>
+                    <li><a class="" href="http://www.binfenguoyuan.cn:8081/item/detail?id=101025&skuId=102637"><img
+                            src="http://seller.binfenguoyuan.cn/img/2017/7/13/pf526989.jpg"><h4>皇冠梨</h4>
+                        <p class="now_pri" style="margin-top: 0rem;">2.2/斤</p>
+                        <p class="old_pri ">￥2.5/斤</p></a></li>
+                    <li><a class="" href="http://www.binfenguoyuan.cn:8081/item/detail?id=101025&skuId=102637"><img
+                            src="http://seller.binfenguoyuan.cn/img/2017/7/13/pf526989.jpg"><h4>皇冠梨</h4>
+                        <p class="now_pri" style="margin-top: 0rem;">2.2/斤</p>
+                        <p class="old_pri ">￥2.5/斤</p></a></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="hot_floruit"><img src="/misc/cui/fruits.png" class="head_img"></div>
+            <div class="hot_floruit_slider" id="hot_floruit_slider">
+                <div class="tempWrap" style="overflow:hidden; position:relative;">
+                    <div class="main_boxzzz">
+                        <div class="hot_floruit_box" style="display: table-cell; vertical-align: top; width: 640px;">
+                            <a class="" href="javascript:searchItem('枣');"><img src="/misc/cui/05559565740521011.png"><p>枣</p></a>
+                            <a class="" href="javascript:searchItem('葡萄');"><img src="/misc/cui/05498856066897061.png"><p>葡萄</p></a>
+                            <a class="" href="javascript:searchItem('柑橘');"><img src="/misc/cui/05561154704953153.png"><p>柑橘</p></a>
+                            <a class="" href="javascript:searchItem('桂圆');"><img src="/misc/cui/05603368078321677.png"><p>桂圆</p></a>
+                            <a class="" href="javascript:searchItem('蜜瓜');"><img src="/misc/cui/05543978568557068.png"><p>蜜瓜</p></a>
+                            <a class="" href="javascript:searchItem('奇异果');"><img src="/misc/cui/05458527392680218.png"><p>奇异果</p></a>
+                            <a class="" href="javascript:searchItem('牛油果');"><img src="/misc/cui/05339202577340831.png"><p>牛油果</p></a>
+                            <a class="" href="javascript:searchItem('苹果');"><img src="/misc/cui/05339202623645263.png"><p>苹果</p></a>
+                            <a class="" href="javascript:searchItem('火龙果');"><img src="/misc/cui/05372730695060968.png"><p>火龙果</p></a>
+                            <a class="" href="javascript:searchItem('香蕉');"><img src="/misc/cui/05339202700647839.png"><p>香蕉</p></a>
+                            <a class="" href="javascript:searchItem('西瓜');"><img src="/misc/cui/05430014105767717.png"><p>西瓜</p></a>
+                            <a class="" href="javascript:searchItem('芒果');"><img src="/misc/cui/05354595063824496.png"><p>芒果</p></a></div>
+                    </div>
+                </div>
+                <!--
+                <div class="hot_circle">
+                    <ul>
+                        <li class="on">1</li>
+                    </ul>
+                </div>
+                -->
+            </div>
+        </div>
+        <div class="advertisement"><img src="/misc/cui/05399722407285117.jpg"></div>
+        <nav class="">
+            <a id="go_home" class="active" href="/index5.html"></a>
+            <a id="go_class" class=""  href="/item/category"></a>
+            <a id="go_cart" class="" data-num="0" href="/cart"></a>
+            <a id="go_my" class="" href="/user"></a>
+        </nav>
+        <div id="search" class=""><input type="text" id="searchInput" onkeypress="doSearch()" ></div>
+    </div>
+</div>
+<div id="cover_module" style="display: none;"></div>
+
+<script src="/misc/cui/ab5817edee54b30df8184ab61889c89e.js" charset="UTF-8" defer="" async=""></script>
+<div style="top: 0px; left: 0px; visibility: hidden; position: absolute; width: 1px; height: 1px;">
+    <iframe style="height:0px; width:0px;" src="/misc/cui/delegate.html"></iframe>
+</div>
+<iframe src="/misc/cui/box.html" id="YSF-IFRAME-DATA"
+        style="width: 0px; height: 0px; border: 0px; display: none; outline: none;"></iframe>
+<div class="layer-1" id="YSF-BTN-HOLDER" style="display: none;">
+    <div id="YSF-CUSTOM-ENTRY-1"><img src="/misc/cui/1.png"></div>
+    <span id="YSF-BTN-CIRCLE"></span>
+    <div id="YSF-BTN-BUBBLE">
+        <div id="YSF-BTN-CONTENT"></div>
+        <span id="YSF-BTN-ARROW"></span><span id="YSF-BTN-CLOSE"></span></div>
+</div>
+
+<script type="text/javascript">
+    function searchItem(name) {
+        window.location.href="/item/search?name="+encodeURI(encodeURI(name));
+    }
+
+    function doSearch() {
+        if(event.keyCode==13){
+            var searchName = document.getElementById("searchInput").value;
+            searchItem(searchName);
+        }
+    }
+
+</script>
+</body>
+</html>
