@@ -239,7 +239,7 @@ public class CartServiceImpl implements CartService {
 						cart.setProperties(sku.getProperties());
 
 						cart.setItemStatus(item.getItemStatus());
-
+						cart.setLeastBuy(sku.getLeastBuy());
 						//累计购物车总金额
 						totleSalePrice = totleSalePrice.add(cart.getSkuPrice().multiply(new BigDecimal(cart.getNum())));
 						//累计购物车总原价金额

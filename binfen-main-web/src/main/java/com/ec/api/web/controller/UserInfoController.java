@@ -53,9 +53,6 @@ public class UserInfoController extends BaseController {
 		try{
 			Integer userId = CookieUtils.getUid(request);
 			UserInfo userInfo = userInfoService.getUserInfoByUserId(userId);
-			if(userInfo.getProperties() != null && userInfo.getProperties() == 1){
-				context.put("pass", 1);
-			}
 			context.put("userInfo", userInfo);
 		}catch (Exception e){
 			log.error("", e);
@@ -71,7 +68,7 @@ public class UserInfoController extends BaseController {
 			UserInfo userInfo = userInfoService.getUserInfoByUserId(userId);
 			userInfo.setMobile(mobile);
 			userInfo.setTruename(trueName);
-			userInfo.setProperties(FlagBitUtil.sign(userInfo.getProperties(), 1));
+//			userInfo.setProperties(FlagBitUtil.sign(userInfo.getProperties(), 1));
 			userInfoService.modify(userInfo);
 			result.setSuccess(true);
 			return result;

@@ -126,6 +126,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 				if(sku.getItemStatus() != 1){
 //					throw new RuntimeException("商品["+sku.getName()+"]已下架");
 				}
+
+				if(sku.getLeastBuy() != null && sku.getLeastBuy() > sku.getNum()){
+					throw new RuntimeException("商品["+sku.getName()+"]购买数量["+sku.getNum()+"]，低于该商品最低购买数量【"+sku.getLeastBuy()+"】");
+				}
+
 				//如果是分销商品
 				if(FlagBitUtil.checkSign(sku.getProperties(), PropertyConstants.USER_FENXIAOSHANG)){
 					orderDetail.setProperties(FlagBitUtil.sign(orderDetail.getProperties(), PropertyConstants.USER_FENXIAOSHANG));
@@ -149,30 +154,22 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 				order.setOrderId(orderId);
 
 				for(int i=0;i<orderDetailList.size();i++){
+
 					OrderDetail orderDetail = orderDetailList.get(i);
 					orderDetail.setOrderId(orderId);
-					orderDetailDao.insert(orderDetail);
 
 					//扣库存
-					Item item = new Item();
-					item.setItemId(orderDetail.getItemId());
-					item.setStockNum(new BigDecimal(orderDetail.getNum()));
+					Sku sku = new Sku();
+					sku.setSkuId(orderDetail.getSkuId());
+					sku.setStock(orderDetail.getNum());
 
-					Integer delState = itemDao.delStock(item);
-
+					Integer delState = skuDao.delStock(sku);
 					if(delState == null || delState == 0){
 						//TODO 抛个异常，回滚事务
 						throw new RuntimeException("商品["+orderDetail.getItemName()+"]库存不足");
 					}
 
-					//TODO 扣除促销库存
-//						for(int j=0;j<delPromotionInfoStock.size();j++){
-//							int delResult = promotionInfoDao.updatePromotionInfoStock(delPromotionInfoStock.get(j));
-//							if(delResult <= 0){
-//								throw new RuntimeException("促销商品库存不足,扣减失败");
-//							}
-//						}
-
+					orderDetailDao.insert(orderDetail);
 				}
 
 				//添加任务表

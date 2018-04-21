@@ -62,6 +62,16 @@ public class CartSku implements Serializable {
 
 	private Integer properties;
 
+	private Integer leastBuy;
+
+	public Integer getLeastBuy() {
+		return leastBuy;
+	}
+
+	public void setLeastBuy(Integer leastBuy) {
+		this.leastBuy = leastBuy;
+	}
+
 	public Integer getItemId() {
 		return itemId;
 	}
