@@ -223,7 +223,7 @@ body{padding-top:45px; -webkit-text-size-adjust: 100%; padding-bottom:64px;}
 .navbar-func .navbar-aboutus{float:right; color:rgba(255,255,255, 0.9); margin-left:10px; position:relative;}
 .navbar-func .navbar-aboutus .glyphicon{height:24px; font-size:18px; line-height:inherit; color:inherit;}
 .navbar-search,
-.navbar-title{position:absolute; left:50%; margin-left:-100px; width:200px; height:34px; margin-top:5px; font:1.25em/34px 'microsoft yahei'; color:rgba(255,255,255,0.95); overflow:hidden;}
+.navbar-title{position:absolute; left:50%; margin-left:-150px; width:300px; height:34px; margin-top:5px; font:1.25em/34px 'microsoft yahei'; color:rgba(255,255,255,0.95); overflow:hidden;}
 .navbar-title>img{position:absolute; top:50%; left:50%; height:100%; margin-top:-16px; margin-left:-33px;}
 .cart-sales-nums{position:absolute; top:-3px; right:-5px; width:16px; height:16px; line-height:16px; text-align:center; border-radius:50%; background:#c9302c; font-style:normal; font-size:12px; color:#fff; z-index:10;}
 .navbar-search>.form-control{margin-top:8px; padding:5px 5px 5px 30px; height:30px; background:rgba(255,255,255,.9); color:#323232;}
