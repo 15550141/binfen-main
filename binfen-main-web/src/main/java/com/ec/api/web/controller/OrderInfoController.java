@@ -244,7 +244,7 @@ public class OrderInfoController extends BaseController {
 		Integer nowHour = cal.get(Calendar.HOUR_OF_DAY);
 		String nowDate = (cal.get(Calendar.MONTH)+ 1)+"-"+cal.get(Calendar.DAY_OF_MONTH)+"|"+weekDays[(cal.get(Calendar.DAY_OF_WEEK) - 1)];
 		if(nowHour < 10){
-			list.add(nowDate + " 10:00-12:00");
+			list.add(nowDate + " 07:00-12:00");
 			list.add(nowDate + " 12:00-14:00");
 			list.add(nowDate + " 14:00-18:00");
 //			list.add(nowDate + " 17:00-20:00");
@@ -262,7 +262,7 @@ public class OrderInfoController extends BaseController {
 		cal.add(Calendar.DATE, 1);
 		System.out.println();
 		String nextDate = (cal.get(Calendar.MONTH)+ 1)+"-"+cal.get(Calendar.DAY_OF_MONTH)+"|"+weekDays[(cal.get(Calendar.DAY_OF_WEEK) - 1)];
-		list.add(nextDate + " 10:00-12:00");
+		list.add(nextDate + " 07:00-12:00");
 		list.add(nextDate + " 12:00-14:00");
 		list.add(nextDate + " 14:00-18:00");
 //		list.add(nextDate + " 17:00-20:00");
